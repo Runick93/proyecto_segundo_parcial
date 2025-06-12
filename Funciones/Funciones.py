@@ -3,8 +3,6 @@ from Utils import *
 
 def inicializar_tablero() -> list:
     tablero = inicializar_matriz(10, 10)
-    #imprimir_tablero(tablero)
-    print("")
     tablero = cargar_naves(tablero)
     imprimir_tablero(tablero)
 

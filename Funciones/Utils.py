@@ -20,18 +20,16 @@ def inicializar_matriz(cantidad_filas: int, cantidad_columnas:int, valor_inicial
     return matriz
 
 def cargar_naves(tablero:list) -> list:
-    #rnd_fila = 0
-    #rnd_col = 0
-
-    for i in range(20):        
+    for i in range(40):        
         
         rnd_fila = random.randint(0, len(tablero) - 1)
         rnd_col =  random.randint(0, len(tablero) - 1)  
     
-        while tablero[rnd_fila][rnd_col] != 0: 
+        while tablero[rnd_fila][rnd_col] == 1: 
+            print(f"Se superpusieron submarinos. Fila: {rnd_fila}, Col: {rnd_col}")
             rnd_fila = random.randint(0, len(tablero) - 1)
             rnd_col =  random.randint(0, len(tablero) - 1)        
-            print(f"Se superpusieron submarinos{rnd_fila}{rnd_col}")
+            
 
         tablero[rnd_fila][rnd_col] = 1
 
