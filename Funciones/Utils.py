@@ -21,8 +21,13 @@ def inicializar_matriz(cantidad_filas: int, cantidad_columnas:int, valor_inicial
 
 
 
-def cargar_naves(tablero:list) -> list:
+def cargar_naves(tablero:list) -> dict:
     contador = 0
+    contador_nave = 0
+
+    diccionario = {
+        "tablero": tablero
+    }
 
     while contador < 10:
         rnd_fila = random.randint(0, len(tablero) - 1)
@@ -34,6 +39,9 @@ def cargar_naves(tablero:list) -> list:
                 continue          
             
             tablero[rnd_fila][rnd_col] = 1
+            #diccionario["submarinos"].append(rnd_fila)
+            #diccionario["submarinos"].append(rnd_col)
+            diccionario[f"submarino_{contador+1}"] = [rnd_fila, rnd_col]
             print(f"Submarino: [{[rnd_fila]}] [{[rnd_col]}]")
         
         # Destructores
@@ -43,14 +51,18 @@ def cargar_naves(tablero:list) -> list:
 
             if tablero[rnd_fila][rnd_col] == 1 or tablero[rnd_fila][rnd_col + 1] == 1:
                 continue 
+
+            contador_nave+= 1
             
             tablero[rnd_fila][rnd_col] = 1
             tablero[rnd_fila][rnd_col + 1] = 1
+            diccionario[f"destructor_{contador_nave}"] = [rnd_fila, rnd_col]
             print(f"Destructor: [{[rnd_fila]}] [{[rnd_col]}]")
             print(f"Destructor: [{[rnd_fila]}] [{[rnd_col + 1]}]")
         
         # Cruceros
         elif contador > 6 and contador < 9:
+            contador_nave = 0
             if rnd_col > 7:
                 continue
             
@@ -66,6 +78,7 @@ def cargar_naves(tablero:list) -> list:
         
         # Acorazados
         elif contador > 8:
+            contador_nave = 0
             if rnd_col > 6:
                 continue
             
@@ -75,7 +88,8 @@ def cargar_naves(tablero:list) -> list:
             tablero[rnd_fila][rnd_col] = 1
             tablero[rnd_fila][rnd_col + 1] = 1
             tablero[rnd_fila][rnd_col + 2] = 1
-            tablero[rnd_fila][rnd_col + 3] = 1  
+            tablero[rnd_fila][rnd_col + 3] = 1
+            diccionario[f"acorazado_{contador_nave+1}"] = [rnd_fila, rnd_col]
             print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col]}]")     
             print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 1]}]")       
             print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 2]}]")       
@@ -83,8 +97,7 @@ def cargar_naves(tablero:list) -> list:
         
         contador += 1
 
-
-    return tablero
+    return diccionario
 
 
 # Validaciones:
