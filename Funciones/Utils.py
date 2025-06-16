@@ -83,6 +83,7 @@ def cargar_naves(tablero:list) -> list:
         
         contador += 1
 
+
     return tablero
 
 
