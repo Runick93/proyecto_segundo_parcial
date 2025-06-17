@@ -30,7 +30,8 @@ def pantalla_nivel(pantalla):
 
 def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     retorno = "juego"
-    generar_pantalla_tablero(pantalla)
+
+    renderizar_tablero(pantalla)
 
     coordenadas_boton_atras = pygame.Rect(0, 0, 50, 50)
     pygame.draw.rect(pantalla, 'yellow', [0, 0, 50, 50])
@@ -48,7 +49,7 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
                 retorno = "inicio"
             
             if coordenadas_boton_reiniciar.collidepoint(posicion_mouse):
-                retorno = "inicio"
+                retorno = "reiniciar"
             
             if coordenadas_casillas.collidepoint(posicion_mouse):
                 mouse_x, mouse_y = posicion_mouse
@@ -78,7 +79,6 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
                 # Debug
                 print("Aciertos:", dict_jugador["disparos_acertados"])
                 print("No Aciertos:", dict_jugador["disparos_no_acertados"])
-    
 
     return retorno
 
@@ -88,7 +88,7 @@ def pantalla_puntaje(pantalla):
 
 
 
-def generar_pantalla_tablero(pantalla):
+def renderizar_tablero(pantalla):
     # Constantes
     CANT_X = 10
     CANT_Y = 10
@@ -147,9 +147,7 @@ def generar_pantalla_tablero(pantalla):
             x = offset_x + j * ANCHO_IMAGEN
             y = offset_y + i * ALTO_IMAGEN
             pantalla.blit(imagen_reescalada, (x, y))
-            pantalla.blit(contorno, (x, y))
-
-    #pygame.display.flip()        
+            pantalla.blit(contorno, (x, y))     
 
 
 def buscar_barco(tablero:list, coordenadas:list) -> bool:    

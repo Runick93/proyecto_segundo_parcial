@@ -16,12 +16,9 @@ pygame.display.set_icon(imagen)
 # mixer.music.set_volume(0.4)
 # mixer.music.play(loops=-1)
 
-dict_juego = inicializar_tablero()
-dict_jugador = {
-    "disparos_acertados": [],
-    "disparos_no_acertados": [],
-    "puntaje": "0000"
-}
+dict_juego = inicializar_juego()
+dict_jugador = inicializar_jugador()
+
 
 menu_inicio = "inicio"
 
@@ -29,7 +26,7 @@ while True:
     eventos = pygame.event.get()
 
     for evento in eventos:
-        # Evento quit.
+        # Evento quit. Por si se decide cerrar la ventana
         if evento.type == pygame.QUIT:
             pygame.quit()
             quit()
@@ -52,5 +49,9 @@ while True:
     elif menu_inicio == "salir":
         pygame.quit()
         quit()
+    elif menu_inicio == "reiniciar":
+        dict_juego = inicializar_juego()
+        dict_jugador = inicializar_jugador()
+        menu_inicio = "juego"
 
     pygame.display.flip()
