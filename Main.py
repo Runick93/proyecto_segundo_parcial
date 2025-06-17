@@ -14,13 +14,14 @@ pygame.display.set_caption("Batalla Naval")
 imagen = pygame.image.load("proyecto_segundo_parcial/Imagenes/icono_juego.jpg")
 pygame.display.set_icon(imagen)
 
-mixer.music.load("proyecto_segundo_parcial/Sonidos/musica_fondo.mp3")
-mixer.music.set_volume(0.4)
-mixer.music.play(loops=-1)
+#mixer.music.load("proyecto_segundo_parcial/Sonidos/musica_fondo.mp3")
+#mixer.music.set_volume(0.4)
+#mixer.music.play(loops=-1)
 
 menu_inicio = "inicio"  
 tablero = inicializar_tablero()
 matriz_tablero = tablero["tablero"]
+
 
 while True:
     eventos = pygame.event.get()
