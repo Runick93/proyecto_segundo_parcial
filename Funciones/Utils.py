@@ -42,7 +42,6 @@ def cargar_naves(tablero:list) -> dict:
             #diccionario["submarinos"].append(rnd_fila)
             #diccionario["submarinos"].append(rnd_col)
             diccionario[f"submarino_{contador+1}"] = [rnd_fila, rnd_col]
-            print(f"Submarino: [{[rnd_fila]}] [{[rnd_col]}]")
         
         # Destructores
         elif contador > 3 and contador < 7:
@@ -57,8 +56,6 @@ def cargar_naves(tablero:list) -> dict:
             tablero[rnd_fila][rnd_col] = 1
             tablero[rnd_fila][rnd_col + 1] = 1
             diccionario[f"destructor_{contador_nave}"] = [rnd_fila, rnd_col]
-            print(f"Destructor: [{[rnd_fila]}] [{[rnd_col]}]")
-            print(f"Destructor: [{[rnd_fila]}] [{[rnd_col + 1]}]")
         
         # Cruceros
         elif contador > 6 and contador < 9:
@@ -72,9 +69,6 @@ def cargar_naves(tablero:list) -> dict:
             tablero[rnd_fila][rnd_col] = 1
             tablero[rnd_fila][rnd_col + 1] = 1
             tablero[rnd_fila][rnd_col + 2] = 1
-            print(f"Crucero: [{[rnd_fila]}] [{[rnd_col]}]")
-            print(f"Crucero: [{[rnd_fila]}] [{[rnd_col + 1]}]")
-            print(f"Crucero: [{[rnd_fila]}] [{[rnd_col + 2]}]")
         
         # Acorazados
         elif contador > 8:
@@ -89,11 +83,7 @@ def cargar_naves(tablero:list) -> dict:
             tablero[rnd_fila][rnd_col + 1] = 1
             tablero[rnd_fila][rnd_col + 2] = 1
             tablero[rnd_fila][rnd_col + 3] = 1
-            diccionario[f"acorazado_{contador_nave+1}"] = [rnd_fila, rnd_col]
-            print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col]}]")     
-            print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 1]}]")       
-            print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 2]}]")       
-            print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 3]}]")               
+            diccionario[f"acorazado_{contador_nave+1}"] = [rnd_fila, rnd_col]           
         
         contador += 1
 

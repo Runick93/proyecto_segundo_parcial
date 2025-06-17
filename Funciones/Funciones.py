@@ -1,4 +1,4 @@
-from Utils import *
+from .Utils import *
 
 
 def inicializar_tablero() -> dict:

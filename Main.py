@@ -1,6 +1,8 @@
 import pygame
 import pygame.mixer as mixer
 from Funciones_Juego.Funciones_Juegos import *
+from Funciones.Funciones import inicializar_tablero
+
 
 pygame.init()
 mixer.init()
@@ -16,7 +18,9 @@ mixer.music.load("proyecto_segundo_parcial/Sonidos/musica_fondo.mp3")
 mixer.music.set_volume(0.4)
 mixer.music.play(loops=-1)
 
-menu_inicio = "inicio"
+menu_inicio = "inicio"  
+tablero = inicializar_tablero()
+matriz_tablero = tablero["tablero"]
 
 while True:
     eventos = pygame.event.get()
@@ -28,7 +32,7 @@ while True:
 
         if evento.type == pygame.MOUSEBUTTONDOWN:
             if menu_inicio == "inicio":
-                menu_inicio = seleccionar_botones(pantalla)
+                menu_inicio = seleccionar_botones(pantalla, eventos, matriz_tablero)
             
             posicion_mouse = pygame.mouse.get_pos()
             coordenadas_menu = pygame.Rect(20,15,95,55)
@@ -43,7 +47,7 @@ while True:
         menu_inicio = pantalla_nivel(pantalla)
     elif menu_inicio == "juego":
         pantalla.fill((0,0,0))
-        menu_inicio = pantalla_juego(pantalla)
+        pantalla_juego(pantalla, eventos,matriz_tablero)
     elif menu_inicio == "puntaje":
         pantalla.fill((0,0,0))
         menu_inicio = pantalla_puntaje(pantalla)
