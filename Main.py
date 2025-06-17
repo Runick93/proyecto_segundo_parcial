@@ -34,7 +34,7 @@ while True:
         # Evento mouse clic.
         if evento.type == pygame.MOUSEBUTTONDOWN:
              if menu_inicio == "inicio":
-                 menu_inicio = seleccionar_botones_inicio()
+                 menu_inicio = pantalla_inicio()
 
     if menu_inicio == "inicio":
         pantalla.blit(fondo_imagen, [0,0])
