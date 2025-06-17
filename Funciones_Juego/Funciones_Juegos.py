@@ -38,6 +38,10 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
 
     coordenadas_boton_reiniciar = pygame.Rect(60, 0, 50, 50)
     pygame.draw.rect(pantalla, 'pink', [60, 0, 50, 50])
+
+    fuente = pygame.font.SysFont("Consolas", 32)
+    texto_surface = fuente.render(f"PUNTAJE: {dict_jugador['puntaje']}", True, (255, 255, 255))
+    pantalla.blit(texto_surface, (500, 10))
     
     coordenadas_casillas = pygame.Rect(250, 150, 30 * 10, 30 * 10)
     
@@ -114,7 +118,7 @@ def renderizar_tablero(pantalla):
     offset_y = (ALTO_PANTALLA - GRILLA_ALTO) // 2
 
     # Fuente
-    fuente = pygame.font.SysFont("Arial", 20)
+    fuente = pygame.font.SysFont("Lucida Console", 20)
 
     # Cargar y escalar imagen
     imagen = pygame.image.load(AGUA_IMAGEN).convert_alpha()
