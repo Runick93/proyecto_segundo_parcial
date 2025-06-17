@@ -45,7 +45,7 @@ while True:
         pantalla.fill((0,0,0))
         menu_inicio = pantalla_nivel(pantalla)
     elif menu_inicio == "juego":
-        menu_inicio = pantalla_juego(pantalla, dict_juego, dict_jugador)
+        menu_inicio = pantalla_juego(pantalla, eventos, dict_juego, dict_jugador)
     elif menu_inicio == "puntaje":
         pantalla.fill((0,0,0))
         menu_inicio = pantalla_puntaje(pantalla)

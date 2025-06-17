@@ -28,22 +28,35 @@ def seleccionar_botones_inicio() -> str:
 def pantalla_nivel(pantalla):
     pygame.draw.rect(pantalla, 'pink', [100, 100, 300, 300])
 
-def pantalla_juego(pantalla, dict_juego, dict_jugador) -> str:
-
+def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     generar_pantalla_tablero(pantalla)
 
-    eventos = pygame.event.get()
+    coordenadas_boton_atras = pygame.Rect(0, 0, 50, 50)
+    pygame.draw.rect(pantalla, 'yellow', [0, 0, 50, 50])
+
+    coordenadas_boton_reiniciar = pygame.Rect(60, 0, 50, 50)
+    pygame.draw.rect(pantalla, 'pink', [60, 0, 50, 50])
+    
+    coordenadas_casillas = pygame.Rect(250, 150, 30 * 10, 30 * 10)
+    
     for evento in eventos:
-        casillas = pygame.Rect(250, 150, 30 * 10, 30 * 10)
-        posicion_mouse = pygame.mouse.get_pos()
-        
         if evento.type == pygame.MOUSEBUTTONDOWN:
-            if casillas.collidepoint(posicion_mouse):
+            posicion_mouse = pygame.mouse.get_pos()
+            
+            if coordenadas_boton_atras.collidepoint(posicion_mouse):
+                return "inicio"
+            
+            if coordenadas_boton_reiniciar.collidepoint(posicion_mouse):
+                return "inicio"
+            
+            
+            
+            if coordenadas_casillas.collidepoint(posicion_mouse):
                 mouse_x, mouse_y = posicion_mouse
 
                 # Coordenadas relativas dentro del tablero
-                rel_x = mouse_x - casillas.x
-                rel_y = mouse_y - casillas.y
+                rel_x = mouse_x - coordenadas_casillas.x
+                rel_y = mouse_y - coordenadas_casillas.y
 
                 # Para buscar en la matriz                
                 fila = rel_y // 30
@@ -51,7 +64,7 @@ def pantalla_juego(pantalla, dict_juego, dict_jugador) -> str:
                 posicion_matriz = (fila, columna)
 
                 # pra dibujar las cruces en la pantalla
-                posicion_tablero = (casillas.x, casillas.y)
+                posicion_tablero = (coordenadas_casillas.x, coordenadas_casillas.y)
 
                 hay_barco = buscar_barco(dict_juego["tablero"],[fila, columna])
                 if hay_barco:
@@ -137,7 +150,7 @@ def generar_pantalla_tablero(pantalla):
             pantalla.blit(imagen_reescalada, (x, y))
             pantalla.blit(contorno, (x, y))
 
-    pygame.display.flip()        
+    #pygame.display.flip()        
 
 
 def buscar_barco(tablero:list, coordenadas:list) -> bool:    
