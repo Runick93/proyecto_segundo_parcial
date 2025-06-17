@@ -29,6 +29,7 @@ def pantalla_nivel(pantalla):
     pygame.draw.rect(pantalla, 'pink', [100, 100, 300, 300])
 
 def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
+    retorno = "juego"
     generar_pantalla_tablero(pantalla)
 
     coordenadas_boton_atras = pygame.Rect(0, 0, 50, 50)
@@ -44,12 +45,10 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
             posicion_mouse = pygame.mouse.get_pos()
             
             if coordenadas_boton_atras.collidepoint(posicion_mouse):
-                return "inicio"
+                retorno = "inicio"
             
             if coordenadas_boton_reiniciar.collidepoint(posicion_mouse):
-                return "inicio"
-            
-            
+                retorno = "inicio"
             
             if coordenadas_casillas.collidepoint(posicion_mouse):
                 mouse_x, mouse_y = posicion_mouse
@@ -81,7 +80,7 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
                 print("No Aciertos:", dict_jugador["disparos_no_acertados"])
     
 
-    return "juego"
+    return retorno
 
 def pantalla_puntaje(pantalla):
     fondo_imagen = pygame.image.load("Imagenes/pantalla_puntajes.jpg")
