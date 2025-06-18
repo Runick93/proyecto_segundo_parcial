@@ -1,6 +1,11 @@
 import pygame
 from Funciones.Funciones import *
 
+
+
+
+
+
 # Pantallas.
 def pantalla_inicio() -> str:
     """
@@ -53,10 +58,26 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
         dict_juego: Parametros del juego, como el tablero con las naves y las coordenadas de cada nave.
         dict_jugador: Parametros del jugador, como coordenadas acertadas, no acertadas y puntaje
     """
+    FILAS = 30
+    COLUMNAS = 30
+    ANCHO_IMAGEN_AGUA = 30
+    ALTO_IMAGEN_AGUA = 30
+    
     retorno = "juego"
 
-    renderizar_tablero(pantalla)
+    imagen_cruz_roja = pygame.image.load("Imagenes/cruz_roja.png")
+    imagen_cruz_roja_reescalada = pygame.transform.scale(imagen_cruz_roja, (30, 30))
 
+    imagen_cruz_negra = pygame.image.load("Imagenes/cruz_negra.png")
+    imagen_cruz_negra_reescalada = pygame.transform.scale(imagen_cruz_negra, (30, 30))
+
+
+
+
+
+    renderizar_tablero(pantalla)
+    # renderizar_botones(pantalla)
+    # renderizar_puntaje(pantalla)
     fuente_botones = pygame.font.SysFont("consolas", 20)
 
     coordenadas_boton_atras = pygame.Rect(10, 10, 100, 50)
@@ -75,8 +96,25 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     texto_surface = fuente_puntaje.render(f"PUNTAJE: {dict_jugador['puntaje']}", False, (255, 255, 255))
     pantalla.blit(texto_surface, (500, 10))
     
-    coordenadas_casillas = pygame.Rect(250, 150, 30 * 10, 30 * 10)
+    #coordenadas_casillas = pygame.Rect(250, 150, ANCHO_IMAGEN_AGUA * FILAS, ALTO_IMAGEN_AGUA * COLUMNAS)
     
+    tablero = dict_juego["tablero"]
+
+    for i in range(len(tablero)):
+        for j in range(len(tablero[i])):
+            x = 250 + j * 32
+            y = 150 + i * 32
+            rect = pygame.Rect(x, y, 30, 30)
+
+            if (i, j) in dict_jugador["selection"]:
+                if tablero[i][j] == 1:
+                    #pygame.draw.rect(pantalla, 'pink', [x, y, 30, 30])
+                    pantalla.blit(imagen_cruz_roja_reescalada, (x, y))
+                else:
+                    #pygame.draw.rect(pantalla, 'blue', [x, y, 30, 30])
+                    pantalla.blit(imagen_cruz_negra_reescalada, (x, y))
+
+
     for evento in eventos:
         if evento.type == pygame.MOUSEBUTTONDOWN:
             posicion_mouse = pygame.mouse.get_pos()
@@ -87,34 +125,15 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
             if coordenadas_boton_reiniciar.collidepoint(posicion_mouse):
                 retorno = "reiniciar"
             
-            if coordenadas_casillas.collidepoint(posicion_mouse):
-                mouse_x, mouse_y = posicion_mouse
+            for i in range(len(tablero)):
+                for j in range(len(tablero[i])):
+                    x = 250 + j * 32
+                    y = 150 + i * 32
+                    rect = pygame.Rect(x, y, 30, 30)
 
-                # Coordenadas relativas dentro del tablero
-                rel_x = mouse_x - coordenadas_casillas.x
-                rel_y = mouse_y - coordenadas_casillas.y
-
-                # Para buscar en la matriz                
-                fila = rel_y // 30
-                columna = rel_x // 30
-                posicion_matriz = (fila, columna)
-
-                # pra dibujar las cruces en la pantalla
-                posicion_tablero = (coordenadas_casillas.x, coordenadas_casillas.y)
-
-                hay_barco = buscar_barco(dict_juego["tablero"],[fila, columna])
-                if hay_barco:
-                    dict_jugador["disparos_acertados"].append(posicion_matriz)
-                    print("Acerto al barco")
-                else:
-                    dict_jugador["disparos_no_acertados"].append(posicion_matriz)
-                    print("No acerto al barco")
-        
-                # Aca funcion para dibujar las cruces
-
-                # Debug
-                print("Aciertos:", dict_jugador["disparos_acertados"])
-                print("No Aciertos:", dict_jugador["disparos_no_acertados"])
+                    if rect.collidepoint(posicion_mouse):
+                        print(f"clic en la casilla fila {i} columna {j}")
+                        dict_jugador["selection"].add((i,j))
 
     return retorno
 
@@ -134,8 +153,8 @@ def renderizar_tablero(pantalla):
     """
     Funcion donde se renderiza el tablero.
     """
-    CANT_X = 10
-    CANT_Y = 10
+    CANT_FILAS = 10
+    CANT_COLUMNAS = 10
     ANCHO_IMAGEN_AGUA = 30
     ALTO_IMAGEN_AGUA = 30
     MARGEN_ROTULO_SUP = 40
@@ -149,8 +168,8 @@ def renderizar_tablero(pantalla):
     ANCHO_PANTALLA, ALTO_PANTALLA = pantalla.get_size()
 
     # Calcular tamaño del tablero
-    ANCHO_GRILLA = CANT_X * ANCHO_IMAGEN_AGUA
-    ALTO_GRILLA = CANT_Y * ALTO_IMAGEN_AGUA
+    ANCHO_GRILLA = CANT_FILAS * ANCHO_IMAGEN_AGUA
+    ALTO_GRILLA = CANT_COLUMNAS * ALTO_IMAGEN_AGUA
 
     # Calcular offsets para centrar la grilla
     offset_x = (ANCHO_PANTALLA - ANCHO_GRILLA) // 2
@@ -163,33 +182,35 @@ def renderizar_tablero(pantalla):
     imagen_reescalada = pygame.transform.scale(imagen, (ANCHO_IMAGEN_AGUA, ALTO_IMAGEN_AGUA))
 
     # Contorno
-    contorno = pygame.Surface((ANCHO_IMAGEN_AGUA, ALTO_IMAGEN_AGUA), pygame.SRCALPHA)
-    pygame.draw.rect(contorno, COLOR_CONTORNO, pygame.Rect(0, 0, ANCHO_IMAGEN_AGUA, ALTO_IMAGEN_AGUA), width=GROSOR_CONTORNO)
+    #contorno = pygame.Surface((ANCHO_IMAGEN_AGUA, ALTO_IMAGEN_AGUA), pygame.SRCALPHA)
+    #pygame.draw.rect(contorno, COLOR_CONTORNO, pygame.Rect(0, 0, ANCHO_IMAGEN_AGUA, ALTO_IMAGEN_AGUA), width=GROSOR_CONTORNO)
 
     pantalla.fill(COLOR_FONDO)
 
     # Rótulo superior (numeros)
-    for j in range(CANT_X):
+    for j in range(CANT_FILAS):
         texto = fuente.render(str(j + 1), False, COLOR_TEXTO)
-        x = offset_x + j * ANCHO_IMAGEN_AGUA + ANCHO_IMAGEN_AGUA // 2 - texto.get_width() // 2
+        x = offset_x + j * 32 + 32 // 2 - texto.get_width() // 2
         y = offset_y - MARGEN_ROTULO_SUP // 2 - texto.get_height() // 2
         pantalla.blit(texto, (x, y))
 
-    # Rótulo lateral (letrsa)
-    for i in range(CANT_Y):
+    # Rótulo lateral (letras)
+    for i in range(CANT_COLUMNAS):
         letra = chr(ord('A') + i)
         texto = fuente.render(letra, False, COLOR_TEXTO)
         x = offset_x - MARGEN_ROTULO_IZQ // 2 - texto.get_width() // 2
-        y = offset_y + i * ALTO_IMAGEN_AGUA + ALTO_IMAGEN_AGUA // 2 - texto.get_height() // 2
+        y = offset_y + i * 32 + 32 // 2 - texto.get_height() // 2
         pantalla.blit(texto, (x, y))
 
     # Dibujar casillas
-    for i in range(CANT_Y):
-        for j in range(CANT_X):
-            x = offset_x + j * ANCHO_IMAGEN_AGUA
-            y = offset_y + i * ALTO_IMAGEN_AGUA
+    for i in range(CANT_COLUMNAS):
+        for j in range(CANT_FILAS):
+            x = offset_x + j * 32
+            y = offset_y + i * 32
             pantalla.blit(imagen_reescalada, (x, y))
-            pantalla.blit(contorno, (x, y))     
+            #pantalla.blit(contorno, (x, y))     
+
+
 
 
 def buscar_barco(tablero:list, coordenadas:list) -> bool:    
