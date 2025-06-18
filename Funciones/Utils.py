@@ -21,7 +21,7 @@ def inicializar_matriz(cantidad_filas: int, cantidad_columnas:int, valor_inicial
 
 
 
-def cargar_naves(tablero:list) -> dict:
+def inicializar_naves(tablero:list) -> dict:
     contador = 0
     contador_nave = 0
 
@@ -39,8 +39,6 @@ def cargar_naves(tablero:list) -> dict:
                 continue          
             
             tablero[rnd_fila][rnd_col] = 1
-            #diccionario["submarinos"].append(rnd_fila)
-            #diccionario["submarinos"].append(rnd_col)
             diccionario[f"submarino_{contador+1}"] = [rnd_fila, rnd_col]
             print(f"Submarino: [{[rnd_fila]}] [{[rnd_col]}]")
         
@@ -98,21 +96,6 @@ def cargar_naves(tablero:list) -> dict:
         contador += 1
 
     return diccionario
-
-
-# Validaciones:
-# Validar que no se superpongan las naves.
-# Validar que no queren la mitad de una nave fuera de la matriz.
-
-
-# detectar donde si ya hay una nave en esa posicion.
-# generar naves
-#    - Submarinos   : [fila] [col] = 1
-#    - Destructores : [fila] [col] [col] = 1
-#    - Crucero      : [fila] [col] [col] [col] = 1
-#    - Acorazado    : [fila] [col] [col] [col] [col] = 1
-
-
 
 #imprimir matriz
 def imprimir_tablero(matriz_notas:list):
