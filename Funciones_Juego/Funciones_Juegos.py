@@ -1,9 +1,9 @@
 import pygame
 from Funciones.Funciones import *
 
+import pygame.mixer as mixer
 
-
-
+mixer.init()
 
 
 # Pantallas.
@@ -71,8 +71,11 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     imagen_cruz_negra = pygame.image.load("Imagenes/cruz_negra.png")
     imagen_cruz_negra_reescalada = pygame.transform.scale(imagen_cruz_negra, (30, 30))
 
+    sonido_disparo_acertado = mixer.Sound("Sonidos/sonido_acertado.wav")
+    sonido_disparo_fallido = mixer.Sound("Sonidos/sonido_no_acertado.wav")
 
-
+    sonido_disparo_acertado.set_volume(0.4)
+    sonido_disparo_fallido.set_volume(0.4)
 
 
     renderizar_tablero(pantalla)
@@ -134,6 +137,10 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
                     if rect.collidepoint(posicion_mouse):
                         print(f"clic en la casilla fila {i} columna {j}")
                         dict_jugador["selection"].add((i,j))
+                        if tablero[i][j] == 1:
+                            sonido_disparo_acertado.play()
+                        else: 
+                            sonido_disparo_fallido.play()
 
     return retorno
 
@@ -163,7 +170,7 @@ def renderizar_tablero(pantalla):
     COLOR_FONDO = (0, 0, 0)       # NEGRO
     COLOR_TEXTO = (255, 255, 255) # BLANCO
     GROSOR_CONTORNO = 2
-    IMAGEN_AGUA = "imagenes/agua_tablero.png"
+    IMAGEN_AGUA = "Imagenes/agua_tablero.png"
 
     ANCHO_PANTALLA, ALTO_PANTALLA = pantalla.get_size()
 
