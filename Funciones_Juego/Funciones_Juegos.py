@@ -6,6 +6,7 @@ import pygame.mixer as mixer
 mixer.init()
 
 
+
 # Pantallas.
 def pantalla_inicio() -> str:
     """
@@ -65,17 +66,18 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     
     retorno = "juego"
 
-    imagen_cruz_roja = pygame.image.load("Imagenes/cruz_roja.png")
+    imagen_cruz_roja = pygame.image.load("proyecto_segundo_parcial/Imagenes/cruz_roja.png")
     imagen_cruz_roja_reescalada = pygame.transform.scale(imagen_cruz_roja, (30, 30))
 
-    imagen_cruz_negra = pygame.image.load("Imagenes/cruz_negra.png")
+    imagen_cruz_negra = pygame.image.load("proyecto_segundo_parcial/Imagenes/cruz_negra.png")
     imagen_cruz_negra_reescalada = pygame.transform.scale(imagen_cruz_negra, (30, 30))
 
-    sonido_disparo_acertado = mixer.Sound("Sonidos/sonido_acertado.wav")
-    sonido_disparo_fallido = mixer.Sound("Sonidos/sonido_no_acertado.wav")
+    sonido_disparo_acertado = mixer.Sound("proyecto_segundo_parcial/Sonidos/sonido_acertado.wav")
+    sonido_disparo_fallido = mixer.Sound("proyecto_segundo_parcial/Sonidos/sonido_no_acertado.wav")
 
     sonido_disparo_acertado.set_volume(0.4)
     sonido_disparo_fallido.set_volume(0.4)
+    puntaje = 0
 
 
     renderizar_tablero(pantalla)
@@ -115,6 +117,7 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
                     pantalla.blit(imagen_cruz_roja_reescalada, (x, y))
                 else:
                     #pygame.draw.rect(pantalla, 'blue', [x, y, 30, 30])
+
                     pantalla.blit(imagen_cruz_negra_reescalada, (x, y))
 
 
@@ -139,19 +142,24 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
                         dict_jugador["selection"].add((i,j))
                         if tablero[i][j] == 1:
                             sonido_disparo_acertado.play()
+                            dict_jugador["disparos_acertados"].append((i,j))
                         else: 
                             sonido_disparo_fallido.play()
+                            dict_jugador["disparos_no_acertados"].append((i,j))
 
+    print(dict_jugador["puntaje"])
     return retorno
 
 
 
-def pantalla_puntaje(pantalla):
+def pantalla_puntaje(pantalla, diccionario_juego:dict, diccionario_jugador:dict):
     """
     Funcion que permite ver el historico de puntajes en el juego.
     """
-    fondo_imagen = pygame.image.load("Imagenes/pantalla_puntajes.jpg")
+    fondo_imagen = pygame.image.load("proyecto_segundo_parcial/Imagenes/pantalla_puntajes.jpg")
     pantalla.blit(fondo_imagen, [0,0])
+    buscar_barco(diccionario_juego, diccionario_jugador)
+
 
 
 # Renderizado de objetos.
@@ -170,7 +178,7 @@ def renderizar_tablero(pantalla):
     COLOR_FONDO = (0, 0, 0)       # NEGRO
     COLOR_TEXTO = (255, 255, 255) # BLANCO
     GROSOR_CONTORNO = 2
-    IMAGEN_AGUA = "Imagenes/agua_tablero.png"
+    IMAGEN_AGUA = "proyecto_segundo_parcial/Imagenes/agua_tablero.png"
 
     ANCHO_PANTALLA, ALTO_PANTALLA = pantalla.get_size()
 
@@ -220,12 +228,19 @@ def renderizar_tablero(pantalla):
 
 
 
-def buscar_barco(tablero:list, coordenadas:list) -> bool:    
-    retorno = False
+def buscar_barco(diccionario_juego:dict, diccionario_jugador:dict) -> bool: 
+    submarinos = diccionario_juego["submarinos"]
+    destructores = diccionario_juego["destructores"]
+    cruceros = diccionario_juego["cruceros"]
+    acorazados = diccionario_juego["acorazados"]   
 
-    fila = coordenadas[0]
-    col = coordenadas[1]
-    if tablero[fila][col] == 1:
-        retorno = True
+    disparos_acertados = diccionario_jugador["disparos_acertados"]
+    disparos_no_acertados = diccionario_jugador["disparos_no_acertados"]
 
-    return retorno
+
+
+    print("en proceso")
+
+
+
+
