@@ -26,7 +26,11 @@ def inicializar_naves(tablero:list) -> dict:
     contador_nave = 0
 
     diccionario = {
-        "tablero": tablero
+        "tablero": tablero,
+        "submarinos": [],
+        "destructores": [],
+        "cruceros": [],
+        "acorazados": []
     }
 
     while contador < 10:
@@ -39,7 +43,10 @@ def inicializar_naves(tablero:list) -> dict:
                 continue          
             
             tablero[rnd_fila][rnd_col] = 1
-            diccionario[f"submarino_{contador+1}"] = [rnd_fila, rnd_col]
+            submarino = []
+            submarino.append(rnd_fila)
+            submarino.append(rnd_col)
+            diccionario["submarinos"].append(submarino)
             print(f"Submarino: [{[rnd_fila]}] [{[rnd_col]}]")
         
         # Destructores
@@ -54,7 +61,12 @@ def inicializar_naves(tablero:list) -> dict:
             
             tablero[rnd_fila][rnd_col] = 1
             tablero[rnd_fila][rnd_col + 1] = 1
-            diccionario[f"destructor_{contador_nave}"] = [rnd_fila, rnd_col]
+            destructor = []
+            destructor.append(rnd_fila)
+            for i in range(2):
+                destructor.append(rnd_fila)
+                destructor.append(rnd_col+i)
+            diccionario["destructores"].append(destructor)
             print(f"Destructor: [{[rnd_fila]}] [{[rnd_col]}]")
             print(f"Destructor: [{[rnd_fila]}] [{[rnd_col + 1]}]")
         
@@ -70,6 +82,13 @@ def inicializar_naves(tablero:list) -> dict:
             tablero[rnd_fila][rnd_col] = 1
             tablero[rnd_fila][rnd_col + 1] = 1
             tablero[rnd_fila][rnd_col + 2] = 1
+            crucero = []
+            crucero.append(rnd_fila)
+            for i in range(3):
+                destructor.append(rnd_fila)
+                crucero.append(rnd_col+i)
+
+            diccionario["cruceros"].append(crucero)
             print(f"Crucero: [{[rnd_fila]}] [{[rnd_col]}]")
             print(f"Crucero: [{[rnd_fila]}] [{[rnd_col + 1]}]")
             print(f"Crucero: [{[rnd_fila]}] [{[rnd_col + 2]}]")
@@ -87,7 +106,12 @@ def inicializar_naves(tablero:list) -> dict:
             tablero[rnd_fila][rnd_col + 1] = 1
             tablero[rnd_fila][rnd_col + 2] = 1
             tablero[rnd_fila][rnd_col + 3] = 1
-            diccionario[f"acorazado_{contador_nave+1}"] = [rnd_fila, rnd_col]
+            acorazado = []
+            acorazado.append(rnd_fila)
+            for i in range(4):
+                destructor.append(rnd_fila)
+                acorazado.append(rnd_col+i)
+            diccionario["acorazados"].append(acorazado)
             print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col]}]")     
             print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 1]}]")       
             print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 2]}]")       

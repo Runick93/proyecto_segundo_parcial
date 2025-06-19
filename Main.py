@@ -6,10 +6,10 @@ pygame.init()
 mixer.init()
 
 pantalla = pygame.display.set_mode((800,600))
-fondo_imagen = pygame.image.load("Imagenes/imagen_menu.jpg")
+fondo_imagen = pygame.image.load("proyecto_segundo_parcial/Imagenes/imagen_menu.jpg")
 
 pygame.display.set_caption("Batalla Naval")
-imagen = pygame.image.load("Imagenes/icono_juego.jpg")
+imagen = pygame.image.load("proyecto_segundo_parcial/Imagenes/icono_juego.jpg")
 pygame.display.set_icon(imagen)
 
 # mixer.music.load("Sonidos/musica_fondo.mp3")
@@ -45,7 +45,7 @@ while True:
         menu_inicio = pantalla_juego(pantalla, eventos, dict_juego, dict_jugador)
     elif menu_inicio == "puntaje":
         pantalla.fill((0,0,0))
-        menu_inicio = pantalla_puntaje(pantalla)
+        menu_inicio = pantalla_puntaje(pantalla, dict_juego, dict_jugador)
     elif menu_inicio == "salir":
         pygame.quit()
         quit()
