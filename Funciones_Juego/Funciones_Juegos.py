@@ -133,17 +133,24 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
 
                     if rect.collidepoint(posicion_mouse):
                         print(f"clic en la casilla fila {i} columna {j}")
-                        dict_jugador["selection"].add((i,j))
-                        if tablero[i][j] == 1:
-                            sonido_disparo_acertado.play()
-                            dict_jugador["disparos_acertados"].append((i,j))
-                            dict_jugador["puntaje"] += 5
-                            verificar_destruccion(dict_juego, dict_jugador)
+                        se_clickeo = False
 
-                        else: 
-                            sonido_disparo_fallido.play()
-                            dict_jugador["disparos_no_acertados"].append((i,j))
-                            dict_jugador["puntaje"] -= 1
+                        for numero_de_casilla in range(len(dict_jugador["selection"])):
+                            seleccion_usuario = dict_jugador["selection"][numero_de_casilla]
+                            if seleccion_usuario[0] == i and seleccion_usuario[1] == j:
+                                se_clickeo = True
+                    
+                        if se_clickeo == False:
+                            dict_jugador["selection"].append((i,j))
+                            if tablero[i][j] == 1:
+                                sonido_disparo_acertado.play()
+                                dict_jugador["disparos_acertados"].append([i,j])
+                                dict_jugador["puntaje"] += 5
+                                verificar_destruccion(dict_juego, dict_jugador)
+                            else: 
+                                sonido_disparo_fallido.play()
+                                dict_jugador["disparos_no_acertados"].append((i,j))
+                                dict_jugador["puntaje"] -= 1
 
     #print(dict_jugador["puntaje"])
     texto_surface = fuente_puntaje.render(f"PUNTAJE: {dict_jugador['puntaje']}", False, (255, 255, 255))
@@ -261,11 +268,11 @@ def verificar_destruccion(dict_juego, dict_jugador):
                         fue_acertada = True
                         break
 
-                if not fue_acertada:
+                if fue_acertada == False:
                     fue_destruida = False
                     break
 
-            if fue_destruida:
+            if fue_destruida == True:
                 dict_jugador["puntaje"] += 10 * len(nave)
                 print("nave destruida", tipo, nave)
                 naves_a_eliminar.append(nave)
