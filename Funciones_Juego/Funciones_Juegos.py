@@ -34,7 +34,7 @@ def pantalla_inicio() -> str:
     elif coordenadas_boton_salir.collidepoint(posicion_mouse):
         opcion = "salir"
     elif coordenadas_boton_jugar.collidepoint(posicion_mouse):
-        opcion = "ingresar_nombre"
+        opcion = "juego"
 
     return opcion
 

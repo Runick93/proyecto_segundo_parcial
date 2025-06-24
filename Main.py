@@ -23,7 +23,6 @@ dict_jugador = inicializar_jugador()
 
 menu_inicio = "inicio"
 nombre_usuario = dict_jugador["nombre_usuario"]
-dict_jugador["nombre_insertado"] = False
 
 while True:
     eventos = pygame.event.get()
@@ -50,11 +49,13 @@ while True:
         print(dict_jugador["nombre_usuario"])
 
         if dict_jugador["nombre_insertado"] == True:
-            dict_jugador["nombre_insertado"] = False
             menu_inicio = "juego"
             pantalla.fill((0,0,0))
     elif menu_inicio == "juego": 
-        menu_inicio = pantalla_juego(pantalla, eventos, dict_juego, dict_jugador)
+        nombre_usuario = ingresar_nombre_usuario(pantalla,eventos, dict_jugador, nombre_usuario)
+        if len(nombre_usuario) > 0:
+            pantalla.fill((0,0,0))
+            menu_inicio = pantalla_juego(pantalla, eventos, dict_juego, dict_jugador)
     elif menu_inicio == "puntaje":
         menu_inicio = pantalla_puntaje(pantalla, dict_juego, dict_jugador)
     elif menu_inicio == "salir":
