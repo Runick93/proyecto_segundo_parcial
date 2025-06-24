@@ -1,6 +1,5 @@
 import pygame
 from Funciones.Funciones import *
-import time
 
 import pygame.mixer as mixer
 
