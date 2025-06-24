@@ -72,9 +72,8 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     sonido_disparo_acertado = mixer.Sound("Sonidos/sonido_acertado.wav")
     sonido_disparo_fallido = mixer.Sound("Sonidos/sonido_no_acertado.wav")
 
-    sonido_disparo_acertado.set_volume(0.4)
-    sonido_disparo_fallido.set_volume(0.4)
-    puntaje = 0
+    sonido_disparo_acertado.set_volume(0.2)
+    sonido_disparo_fallido.set_volume(0.2)
 
 
     renderizar_tablero(pantalla)
@@ -95,10 +94,7 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     pantalla.blit(texto_reiniciar, rect_texto_reiniciar)
 
     fuente_puntaje = pygame.font.SysFont("Consolas", 32)
-    texto_surface = fuente_puntaje.render(f"PUNTAJE: {dict_jugador['puntaje']}", False, (255, 255, 255))
-    pantalla.blit(texto_surface, (500, 10))
-    
-    #coordenadas_casillas = pygame.Rect(250, 150, ANCHO_IMAGEN_AGUA * FILAS, ALTO_IMAGEN_AGUA * COLUMNAS)
+
     
     tablero = dict_juego["tablero"]
 
@@ -110,10 +106,8 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
 
             if (i, j) in dict_jugador["selection"]:
                 if tablero[i][j] == 1:
-                    #pygame.draw.rect(pantalla, 'pink', [x, y, 30, 30])
                     pantalla.blit(imagen_cruz_roja_reescalada, (x, y))
                 else:
-                    #pygame.draw.rect(pantalla, 'blue', [x, y, 30, 30])
 
                     pantalla.blit(imagen_cruz_negra_reescalada, (x, y))
 
@@ -136,15 +130,28 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
 
                     if rect.collidepoint(posicion_mouse):
                         print(f"clic en la casilla fila {i} columna {j}")
-                        dict_jugador["selection"].add((i,j))
-                        if tablero[i][j] == 1:
-                            sonido_disparo_acertado.play()
-                            dict_jugador["disparos_acertados"].append((i,j))
-                        else: 
-                            sonido_disparo_fallido.play()
-                            dict_jugador["disparos_no_acertados"].append((i,j))
+                        se_clickeo = False
 
-    print(dict_jugador["puntaje"])
+                        for numero_de_casilla in range(len(dict_jugador["selection"])):
+                            seleccion_usuario = dict_jugador["selection"][numero_de_casilla]
+                            if seleccion_usuario[0] == i and seleccion_usuario[1] == j:
+                                se_clickeo = True
+                    
+                        if se_clickeo == False:
+                            dict_jugador["selection"].append((i,j))
+                            if tablero[i][j] == 1:
+                                sonido_disparo_acertado.play()
+                                dict_jugador["disparos_acertados"].append([i,j])
+                                dict_jugador["puntaje"] += 5
+                                verificar_destruccion(dict_juego, dict_jugador)
+                            else: 
+                                sonido_disparo_fallido.play()
+                                dict_jugador["disparos_no_acertados"].append((i,j))
+                                dict_jugador["puntaje"] -= 1
+
+    #print(dict_jugador["puntaje"])
+    texto_surface = fuente_puntaje.render(f"PUNTAJE: {dict_jugador['puntaje']}", False, (255, 255, 255))
+    pantalla.blit(texto_surface, (500, 10))
     return retorno
 
 
@@ -155,7 +162,7 @@ def pantalla_puntaje(pantalla, diccionario_juego:dict, diccionario_jugador:dict)
     """
     fondo_imagen = pygame.image.load("Imagenes/pantalla_puntajes.jpg")
     pantalla.blit(fondo_imagen, [0,0])
-    buscar_barco(diccionario_juego, diccionario_jugador)
+    #buscar_barco(diccionario_juego, diccionario_jugador)
 
 
 
@@ -225,18 +232,18 @@ def renderizar_tablero(pantalla):
 
 
 
-def buscar_barco(diccionario_juego:dict, diccionario_jugador:dict) -> bool: 
-    submarinos = diccionario_juego["submarinos"]
-    destructores = diccionario_juego["destructores"]
-    cruceros = diccionario_juego["cruceros"]
-    acorazados = diccionario_juego["acorazados"]   
+# def buscar_barco(diccionario_juego:dict, diccionario_jugador:dict) -> bool: 
+#     submarinos = diccionario_juego["submarinos"]
+#     destructores = diccionario_juego["destructores"]
+#     cruceros = diccionario_juego["cruceros"]
+#     acorazados = diccionario_juego["acorazados"]   
 
-    disparos_acertados = diccionario_jugador["disparos_acertados"]
-    disparos_no_acertados = diccionario_jugador["disparos_no_acertados"]
+#     disparos_acertados = diccionario_jugador["disparos_acertados"]
+#     disparos_no_acertados = diccionario_jugador["disparos_no_acertados"]
 
 
 
-    print("en proceso")
+#     print("en proceso")
 
 
 def ingresar_nombre_usuario(pantalla, eventos, dict_jugador: dict, nombre_usuario) -> None:
@@ -273,3 +280,33 @@ def ingresar_nombre_usuario(pantalla, eventos, dict_jugador: dict, nombre_usuari
 
     return nombre_usuario
 
+def verificar_destruccion(dict_juego, dict_jugador):
+    tipos_nave = ["submarinos", "destructores", "cruceros", "acorazados"]
+    disparos = dict_jugador["disparos_acertados"]
+
+    for tipo in tipos_nave:
+        naves = dict_juego[tipo]
+        naves_a_eliminar = []
+
+        for nave in naves:
+            fue_destruida = True
+
+            for parte in nave:
+                fue_acertada = False
+                
+                for disparo in disparos:
+                    if disparo[0] == parte[0] and disparo[1] == parte[1]:
+                        fue_acertada = True
+                        break
+
+                if fue_acertada == False:
+                    fue_destruida = False
+                    break
+
+            if fue_destruida == True:
+                dict_jugador["puntaje"] += 10 * len(nave)
+                print("nave destruida", tipo, nave)
+                naves_a_eliminar.append(nave)
+
+        for nave in naves_a_eliminar:
+            naves.remove(nave)
