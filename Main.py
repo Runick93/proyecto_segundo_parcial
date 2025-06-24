@@ -47,6 +47,7 @@ while True:
         menu_inicio = pantalla_nivel(pantalla)
     elif menu_inicio == "ingresar_nombre":
         nombre_usuario = ingresar_nombre_usuario(pantalla,eventos, dict_jugador, nombre_usuario)
+        print(dict_jugador["nombre_usuario"])
 
         if dict_jugador["nombre_insertado"] == True:
             dict_jugador["nombre_insertado"] = False
@@ -62,7 +63,7 @@ while True:
     elif menu_inicio == "reiniciar":
         dict_juego = inicializar_juego()
         dict_jugador = inicializar_jugador()
-        nombre_usuario = dict_jugador["nombre_usuario"]
+        nombre_usuario = ""
         menu_inicio = "ingresar_nombre"
 
     pygame.display.flip()
