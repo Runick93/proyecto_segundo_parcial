@@ -141,7 +141,7 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
                                 se_clickeo = True
                     
                         if se_clickeo == False:
-                            dict_jugador["selection"].add((i,j))
+                            dict_jugador["selection"].append((i,j))
                             if tablero[i][j] == 1:
                                 sonido_disparo_acertado.play()
                                 dict_jugador["disparos_acertados"].append([i,j])
