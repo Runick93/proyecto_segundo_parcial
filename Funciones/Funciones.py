@@ -9,6 +9,8 @@ def inicializar_juego() -> dict:
 
 def inicializar_jugador() -> dict:
     dict_jugador = {
+        "nombre_usuario": "",
+        "nombre_insertado": False,
         "disparos_acertados": [],
         "disparos_no_acertados": [],
         "puntaje": 0000,
