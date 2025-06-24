@@ -27,12 +27,13 @@ def pantalla_inicio() -> str:
 
     if coordenadas_boton_nivel.collidepoint(posicion_mouse):
         opcion = "nivel"
-    elif coordenadas_boton_jugar.collidepoint(posicion_mouse):
-        opcion = "juego"
+
     elif coordenadas_boton_puntaje.collidepoint(posicion_mouse):
         opcion = "puntaje"
     elif coordenadas_boton_salir.collidepoint(posicion_mouse):
         opcion = "salir"
+    elif coordenadas_boton_jugar.collidepoint(posicion_mouse):
+        opcion = "juego"
 
     return opcion
 
@@ -59,11 +60,6 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
         dict_juego: Parametros del juego, como el tablero con las naves y las coordenadas de cada nave.
         dict_jugador: Parametros del jugador, como coordenadas acertadas, no acertadas y puntaje
     """
-    FILAS = 30
-    COLUMNAS = 30
-    ANCHO_IMAGEN_AGUA = 30
-    ALTO_IMAGEN_AGUA = 30
-    
     retorno = "juego"
 
     imagen_cruz_roja = pygame.image.load("Imagenes/cruz_roja.png")
@@ -248,6 +244,40 @@ def renderizar_tablero(pantalla):
 
 #     print("en proceso")
 
+
+def ingresar_nombre_usuario(pantalla, eventos, dict_jugador: dict, nombre_usuario) -> None:
+    """
+    Funcion que permite ingresar nombre de usuario
+    """
+    pantalla_nombre_usuario = pygame.image.load("Imagenes/pantalla_ingresar_nombre.png")
+    pantalla_nombre_usuario_reescalada = pygame.transform.scale(pantalla_nombre_usuario, (800, 600))
+    pantalla.blit(pantalla_nombre_usuario_reescalada, [0,0])
+
+    if len(nombre_usuario) > 6:
+        nombre_usuario = nombre_usuario[0:6]
+    
+    fuente = pygame.font.SysFont("consolas", 65)
+    rect = pygame.Rect(270, 270, 300, 65)
+    
+    boton_continuar = pygame.Rect(235, 395, 325, 100)
+
+    for evento in eventos:
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_BACKSPACE:
+                nombre_usuario = nombre_usuario[0:-1]
+            else:
+                nombre_usuario += evento.unicode
+        elif evento.type == pygame.MOUSEBUTTONDOWN:
+            posicion_mouse = pygame.mouse.get_pos()
+            if boton_continuar.collidepoint(posicion_mouse) and len(nombre_usuario) > 0:
+                dict_jugador["nombre_insertado"] = True
+    dict_jugador["nombre_usuario"] = nombre_usuario
+
+    texto_superficie = fuente.render(nombre_usuario, True, (255,255,255))
+
+    pantalla.blit(texto_superficie, rect)
+
+    return nombre_usuario
 
 def verificar_destruccion(dict_juego, dict_jugador):
     tipos_nave = ["submarinos", "destructores", "cruceros", "acorazados"]
