@@ -23,9 +23,8 @@ def inicializar_matriz(cantidad_filas: int, cantidad_columnas:int, valor_inicial
 
 def inicializar_naves(tablero:list) -> dict:
     contador = 0
-    contador_nave = 0
 
-    diccionario = {
+    dict_juego = {
         "tablero": tablero,
         "submarinos": [],
         "destructores": [],
@@ -38,88 +37,77 @@ def inicializar_naves(tablero:list) -> dict:
         rnd_col =  random.randint(0, len(tablero) - 1)
         
         # Submarinos
-        if contador < 4:  
+        if contador < 4: 
+             # Validaciones
             if tablero[rnd_fila][rnd_col] == 1:
                 continue          
-            
+
+            # Marcado de la nave en el tablero
             tablero[rnd_fila][rnd_col] = 1
-            submarino = []
-            submarino.append(rnd_fila)
-            submarino.append(rnd_col)
-            diccionario["submarinos"].append(submarino)
-            print(f"Submarino: [{[rnd_fila]}] [{[rnd_col]}]")
+
+            # Guardar posiciones de la nave
+            posicion = [(rnd_fila, rnd_col)]
+            dict_juego["submarinos"].append(posicion)
+            print(f"Submarino: ({rnd_fila}, {rnd_col})")
         
         # Destructores
         elif contador > 3 and contador < 7:
+            # Validaciones
             if rnd_col > 8:
                 continue
 
             if tablero[rnd_fila][rnd_col] == 1 or tablero[rnd_fila][rnd_col + 1] == 1:
                 continue 
-
-            contador_nave+= 1
             
-            tablero[rnd_fila][rnd_col] = 1
-            tablero[rnd_fila][rnd_col + 1] = 1
-            destructor = []
-            destructor.append(rnd_fila)
+            # Marcado de la nave en el tablero
             for i in range(2):
-                destructor.append(rnd_fila)
-                destructor.append(rnd_col+i)
-            diccionario["destructores"].append(destructor)
-            print(f"Destructor: [{[rnd_fila]}] [{[rnd_col]}]")
-            print(f"Destructor: [{[rnd_fila]}] [{[rnd_col + 1]}]")
+                tablero[rnd_fila][rnd_col + i] = 1
+            
+            # Guardar posiciones de la nave
+            posiciones = [(rnd_fila, rnd_col), (rnd_fila, rnd_col + 1)]
+            dict_juego["destructores"].append(posiciones)
+            print(f"Destructor: {posiciones}")
         
         # Cruceros
         elif contador > 6 and contador < 9:
-            contador_nave = 0
+            # Validaciones
             if rnd_col > 7:
                 continue
             
             if tablero[rnd_fila][rnd_col] == 1 or tablero[rnd_fila][rnd_col + 1] == 1 or tablero[rnd_fila][rnd_col + 2] == 1:
                 continue
 
-            tablero[rnd_fila][rnd_col] = 1
-            tablero[rnd_fila][rnd_col + 1] = 1
-            tablero[rnd_fila][rnd_col + 2] = 1
-            crucero = []
-            crucero.append(rnd_fila)
+            # Marcado de la nave en el tablero
             for i in range(3):
-                destructor.append(rnd_fila)
-                crucero.append(rnd_col+i)
-
-            diccionario["cruceros"].append(crucero)
-            print(f"Crucero: [{[rnd_fila]}] [{[rnd_col]}]")
-            print(f"Crucero: [{[rnd_fila]}] [{[rnd_col + 1]}]")
-            print(f"Crucero: [{[rnd_fila]}] [{[rnd_col + 2]}]")
+                tablero[rnd_fila][rnd_col + i] = 1
+            
+            # Guardar posiciones de la nave
+            posiciones = [(rnd_fila, rnd_col), (rnd_fila, rnd_col + 1), (rnd_fila, rnd_col + 2)]
+            dict_juego["cruceros"].append(posiciones)
+            print(f"Crucero: {posiciones}")
+        
         
         # Acorazados
         elif contador > 8:
-            contador_nave = 0
+            # Validaciones
             if rnd_col > 6:
                 continue
             
             if tablero[rnd_fila][rnd_col] == 1 or tablero[rnd_fila][rnd_col + 1] == 1 or tablero[rnd_fila][rnd_col + 2] == 1 or tablero[rnd_fila][rnd_col + 3] == 1:
                 continue
 
-            tablero[rnd_fila][rnd_col] = 1
-            tablero[rnd_fila][rnd_col + 1] = 1
-            tablero[rnd_fila][rnd_col + 2] = 1
-            tablero[rnd_fila][rnd_col + 3] = 1
-            acorazado = []
-            acorazado.append(rnd_fila)
+            # Marcado de la nave en el tablero
             for i in range(4):
-                destructor.append(rnd_fila)
-                acorazado.append(rnd_col+i)
-            diccionario["acorazados"].append(acorazado)
-            print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col]}]")     
-            print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 1]}]")       
-            print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 2]}]")       
-            print(f"Acorazado: [{[rnd_fila]}] [{[rnd_col + 3]}]")               
+                tablero[rnd_fila][rnd_col + i] = 1
+            
+            # Guardar posiciones de la nave
+            posiciones = [(rnd_fila, rnd_col), (rnd_fila, rnd_col + 1), (rnd_fila, rnd_col + 2), (rnd_fila, rnd_col + 3)]
+            dict_juego["acorazados"].append(posiciones)
+            print(f"Acorazado: {posiciones}")
         
         contador += 1
 
-    return diccionario
+    return dict_juego
 
 #imprimir matriz
 def imprimir_tablero(matriz_notas:list):
