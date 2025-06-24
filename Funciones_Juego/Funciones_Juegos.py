@@ -133,11 +133,10 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
 
                     if rect.collidepoint(posicion_mouse):
                         print(f"clic en la casilla fila {i} columna {j}")
-
                         se_clickeo = False
 
                         for numero_de_casilla in range(len(dict_jugador["selection"])):
-                            seleccion_usuario = list(dict_jugador["selection"])[numero_de_casilla]
+                            seleccion_usuario = dict_jugador["selection"][numero_de_casilla]
                             if seleccion_usuario[0] == i and seleccion_usuario[1] == j:
                                 se_clickeo = True
                     
