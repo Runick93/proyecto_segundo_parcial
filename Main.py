@@ -7,10 +7,10 @@ pygame.init()
 mixer.init()
 
 pantalla = pygame.display.set_mode((800,600))
-fondo_imagen = pygame.image.load("proyecto_segundo_parcial/Imagenes/imagen_menu.jpg")
+fondo_imagen = pygame.image.load("Imagenes/imagen_menu.jpg")
 
 pygame.display.set_caption("Batalla Naval")
-imagen = pygame.image.load("proyecto_segundo_parcial/Imagenes/icono_juego.jpg")
+imagen = pygame.image.load("Imagenes/icono_juego.jpg")
 pygame.display.set_icon(imagen)
 
 # mixer.music.load("Sonidos/musica_fondo.mp3")
@@ -44,17 +44,10 @@ while True:
     elif menu_inicio == "nivel":
         pantalla.fill((0,0,0))
         menu_inicio = pantalla_nivel(pantalla)
-    elif menu_inicio == "ingresar_nombre":
-        nombre_usuario = ingresar_nombre_usuario(pantalla,eventos, dict_jugador, nombre_usuario)
-        print(dict_jugador["nombre_usuario"])
-
-        if dict_jugador["nombre_insertado"] == True:
-            menu_inicio = "juego"
-            pantalla.fill((0,0,0))
     elif menu_inicio == "juego": 
-        nombre_usuario = ingresar_nombre_usuario(pantalla,eventos, dict_jugador, nombre_usuario)
-        if len(nombre_usuario) > 0:
-            pantalla.fill((0,0,0))
+        if dict_jugador["nombre_insertado"] == False:
+            nombre_usuario = ingresar_nombre_usuario(pantalla, eventos, dict_jugador, nombre_usuario)
+        else:
             menu_inicio = pantalla_juego(pantalla, eventos, dict_juego, dict_jugador)
     elif menu_inicio == "puntaje":
         menu_inicio = pantalla_puntaje(pantalla, dict_juego, dict_jugador)
@@ -65,6 +58,6 @@ while True:
         dict_juego = inicializar_juego()
         dict_jugador = inicializar_jugador()
         nombre_usuario = ""
-        menu_inicio = "ingresar_nombre"
+        menu_inicio = "juego"
 
     pygame.display.flip()

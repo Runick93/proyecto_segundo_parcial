@@ -63,14 +63,14 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     """
     retorno = "juego"
 
-    imagen_cruz_roja = pygame.image.load("proyecto_segundo_parcial/Imagenes/cruz_roja.png")
+    imagen_cruz_roja = pygame.image.load("Imagenes/cruz_roja.png")
     imagen_cruz_roja_reescalada = pygame.transform.scale(imagen_cruz_roja, (30, 30))
 
-    imagen_cruz_negra = pygame.image.load("proyecto_segundo_parcial/Imagenes/cruz_negra.png")
+    imagen_cruz_negra = pygame.image.load("Imagenes/cruz_negra.png")
     imagen_cruz_negra_reescalada = pygame.transform.scale(imagen_cruz_negra, (30, 30))
 
-    sonido_disparo_acertado = mixer.Sound("proyecto_segundo_parcial/Sonidos/sonido_acertado.wav")
-    sonido_disparo_fallido = mixer.Sound("proyecto_segundo_parcial/Sonidos/sonido_no_acertado.wav")
+    sonido_disparo_acertado = mixer.Sound("Sonidos/sonido_acertado.wav")
+    sonido_disparo_fallido = mixer.Sound("Sonidos/sonido_no_acertado.wav")
 
     sonido_disparo_acertado.set_volume(0.4)
     sonido_disparo_fallido.set_volume(0.4)
@@ -153,7 +153,7 @@ def pantalla_puntaje(pantalla, diccionario_juego:dict, diccionario_jugador:dict)
     """
     Funcion que permite ver el historico de puntajes en el juego.
     """
-    fondo_imagen = pygame.image.load("proyecto_segundo_parcial/Imagenes/pantalla_puntajes.jpg")
+    fondo_imagen = pygame.image.load("Imagenes/pantalla_puntajes.jpg")
     pantalla.blit(fondo_imagen, [0,0])
     buscar_barco(diccionario_juego, diccionario_jugador)
 
@@ -175,7 +175,7 @@ def renderizar_tablero(pantalla):
     COLOR_FONDO = (0, 0, 0)       # NEGRO
     COLOR_TEXTO = (255, 255, 255) # BLANCO
     GROSOR_CONTORNO = 2
-    IMAGEN_AGUA = "proyecto_segundo_parcial/Imagenes/agua_tablero.png"
+    IMAGEN_AGUA = "Imagenes/agua_tablero.png"
 
     ANCHO_PANTALLA, ALTO_PANTALLA = pantalla.get_size()
 
@@ -243,7 +243,7 @@ def ingresar_nombre_usuario(pantalla, eventos, dict_jugador: dict, nombre_usuari
     """
     Funcion que permite ingresar nombre de usuario
     """
-    pantalla_nombre_usuario = pygame.image.load("proyecto_segundo_parcial/Imagenes/pantalla_ingresar_nombre.png")
+    pantalla_nombre_usuario = pygame.image.load("Imagenes/pantalla_ingresar_nombre.png")
     pantalla_nombre_usuario_reescalada = pygame.transform.scale(pantalla_nombre_usuario, (800, 600))
     pantalla.blit(pantalla_nombre_usuario_reescalada, [0,0])
 

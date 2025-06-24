@@ -14,6 +14,6 @@ def inicializar_jugador() -> dict:
         "disparos_acertados": [],
         "disparos_no_acertados": [],
         "puntaje": 0000,
-        "selection": set()
+        "selection": []
     }
     return dict_jugador
