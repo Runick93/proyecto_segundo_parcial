@@ -13,6 +13,7 @@ def inicializar_jugador() -> dict:
         "nombre_insertado": False,
         "disparos_acertados": [],
         "disparos_no_acertados": [],
+        "naves_destruidas": 0,
         "puntaje": 0000,
         "selection": []
     }

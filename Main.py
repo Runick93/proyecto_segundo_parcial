@@ -49,7 +49,7 @@ while True:
         else:
             menu_inicio = pantalla_juego(pantalla, eventos, dict_juego, dict_jugador)
     elif menu_inicio == "puntaje":
-        menu_inicio = pantalla_puntaje(pantalla, dict_juego, dict_jugador)
+        menu_inicio = pantalla_puntaje(pantalla, eventos)
     elif menu_inicio == "salir":
         pygame.quit()
         quit()
