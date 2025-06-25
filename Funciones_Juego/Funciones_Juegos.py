@@ -2,6 +2,8 @@ import pygame
 from Funciones.Funciones import *
 
 import pygame.mixer as mixer
+import json
+import os
 
 mixer.init()
 
@@ -147,7 +149,11 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
                                 sonido_disparo_fallido.play()
                                 dict_jugador["disparos_no_acertados"].append((i,j))
                                 dict_jugador["puntaje"] -= 1
-
+    
+    partida_finalizada = partida_terminada(dict_jugador)
+    if partida_finalizada == True:
+        guardar_puntaje(dict_jugador)
+        retorno = "reiniciar"
     #print(dict_jugador["puntaje"])
     texto_surface = fuente_puntaje.render(f"PUNTAJE: {dict_jugador['puntaje']}", False, (255, 255, 255))
     pantalla.blit(texto_surface, (500, 10))
@@ -306,6 +312,34 @@ def verificar_destruccion(dict_juego, dict_jugador):
                 dict_jugador["puntaje"] += 10 * len(nave)
                 print("nave destruida", tipo, nave)
                 naves_a_eliminar.append(nave)
+                dict_jugador["naves_destruidas"] += 1
 
         for nave in naves_a_eliminar:
             naves.remove(nave)
+        
+def partida_terminada(dict_jugador):
+    naves_destruidas = dict_jugador["naves_destruidas"]
+    
+    retorno = False
+
+    if naves_destruidas == 10:
+        retorno = True
+
+    return retorno
+
+def guardar_puntaje(dict_jugador):
+    nombre_usuario = dict_jugador["nombre_usuario"]
+    puntaje = dict_jugador["puntaje"]
+    
+    ruta = "Jugadores/puntajes_jugadores.json"
+
+    if os.path.exists(ruta):
+        with open(ruta, "r") as f:
+            puntajes = json.load(f)
+    else:
+        puntajes = []
+
+    puntajes.append({"nombre": nombre_usuario, "puntaje": puntaje})
+
+    with open(ruta, "w") as f:
+        json.dump(puntajes, f, indent=4)
