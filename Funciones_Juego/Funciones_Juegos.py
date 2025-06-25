@@ -7,8 +7,6 @@ import os
 
 mixer.init()
 
-
-
 # Pantallas.
 def pantalla_inicio() -> str:
     """
@@ -83,7 +81,7 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     fuente_botones = pygame.font.SysFont("consolas", 20)
 
     coordenadas_boton_atras = pygame.Rect(10, 10, 100, 50)
-    pygame.draw.rect(pantalla, 'yellow', coordenadas_boton_atras)
+    pygame.draw.rect(pantalla, (255, 221, 0), coordenadas_boton_atras)
     texto_atras = fuente_botones.render("Atras", True, (0, 0, 0)) 
     rect_texto_atras = texto_atras.get_rect(center=coordenadas_boton_atras.center)
     pantalla.blit(texto_atras, rect_texto_atras)
@@ -161,18 +159,78 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
 
 
 
-def pantalla_puntaje(pantalla, diccionario_juego:dict, diccionario_jugador:dict):
+def pantalla_puntaje(pantalla, eventos):
     """
     Funcion que permite ver el historico de puntajes en el juego.
     """
+    retorno = "puntaje"
     fondo_imagen = pygame.image.load("Imagenes/pantalla_puntajes.jpg")
     pantalla.blit(fondo_imagen, [0,0])
-    #buscar_barco(diccionario_juego, diccionario_jugador)
+    puntaje_jugador_archivos = obtener_mayor_puntaje()
+
+    fuente_puntaje = pygame.font.SysFont("Consolas", 32)
+
+    fuente_botones = pygame.font.SysFont("consolas", 20)
+
+    coordenadas_boton_atras = pygame.Rect(10, 10, 100, 50)
+    pygame.draw.rect(pantalla, (255, 221, 0), coordenadas_boton_atras)
+    texto_atras = fuente_botones.render("Atras", True, (0, 0, 0)) 
+    rect_texto_atras = texto_atras.get_rect(center=coordenadas_boton_atras.center)
+    pantalla.blit(texto_atras, rect_texto_atras)
+
+    texto_surface_nombre1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["nombre"]}", False, (255, 255, 255))
+    texto_surface_puntaje1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["puntaje"]}", False, (255, 255, 255))
+    pantalla.blit(texto_surface_nombre1, (150, 240))
+    pantalla.blit(texto_surface_puntaje1, (480, 240))
+
+    texto_surface_nombre2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["nombre"]}", False, (255, 255, 255))
+    texto_surface_puntaje2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["puntaje"]}", False, (255, 255, 255))
+    pantalla.blit(texto_surface_nombre2, (150, 365))
+    pantalla.blit(texto_surface_puntaje2, (480, 365))
+
+    texto_surface_nombre3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["nombre"]}", False, (255, 255, 255))
+    texto_surface_puntaje3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["puntaje"]}", False, (255, 255, 255))
+    pantalla.blit(texto_surface_nombre3, (150, 490))
+    pantalla.blit(texto_surface_puntaje3, (480, 490))
+
+    for evento in eventos:
+        if evento.type == pygame.MOUSEBUTTONDOWN:
+            posicion_mouse = pygame.mouse.get_pos()
+            
+            if coordenadas_boton_atras.collidepoint(posicion_mouse):
+                retorno = "inicio"
+
+    return retorno
 
 
+def coordenadas_boton(pantalla, eventos):
+    retorno = ""
+    fuente_botones = pygame.font.SysFont("consolas", 20)
+    coordenadas_boton_atras = pygame.Rect(10, 10, 100, 50)
+    pygame.draw.rect(pantalla, 'yellow', coordenadas_boton_atras)
+    texto_atras = fuente_botones.render("Atras", True, (0, 0, 0)) 
+    rect_texto_atras = texto_atras.get_rect(center=coordenadas_boton_atras.center)
+    pantalla.blit(texto_atras, rect_texto_atras)
+    
+    coordenadas_boton_reiniciar = pygame.Rect(130, 10, 100, 50)
+    pygame.draw.rect(pantalla, 'pink', coordenadas_boton_reiniciar)
+    texto_reiniciar = fuente_botones.render("Reiniciar", True, (0, 0, 0))
+    rect_texto_reiniciar = texto_reiniciar.get_rect(center=coordenadas_boton_reiniciar.center)
+    pantalla.blit(texto_reiniciar, rect_texto_reiniciar)
+
+    for evento in eventos:
+        if evento.type == pygame.MOUSEBUTTONDOWN:
+            posicion_mouse = pygame.mouse.get_pos()
+            
+            if coordenadas_boton_atras.collidepoint(posicion_mouse):
+                retorno = "inicio"
+            
+            if coordenadas_boton_reiniciar.collidepoint(posicion_mouse):
+                retorno = "reiniciar"
+
+    return retorno
 
 # Renderizado de objetos.
-
 def renderizar_tablero(pantalla):
     """
     Funcion donde se renderiza el tablero.
@@ -233,23 +291,6 @@ def renderizar_tablero(pantalla):
             y = offset_y + i * 32
             pantalla.blit(imagen_reescalada, (x, y))
             #pantalla.blit(contorno, (x, y))     
-
-
-
-
-# def buscar_barco(diccionario_juego:dict, diccionario_jugador:dict) -> bool: 
-#     submarinos = diccionario_juego["submarinos"]
-#     destructores = diccionario_juego["destructores"]
-#     cruceros = diccionario_juego["cruceros"]
-#     acorazados = diccionario_juego["acorazados"]   
-
-#     disparos_acertados = diccionario_jugador["disparos_acertados"]
-#     disparos_no_acertados = diccionario_jugador["disparos_no_acertados"]
-
-
-
-#     print("en proceso")
-
 
 def ingresar_nombre_usuario(pantalla, eventos, dict_jugador: dict, nombre_usuario) -> None:
     """
@@ -343,3 +384,33 @@ def guardar_puntaje(dict_jugador):
 
     with open(ruta, "w") as f:
         json.dump(puntajes, f, indent=4)
+
+def ordenamiento(datos):
+    for i in range(0, len(datos)-1, 1):
+        for j in range(i + 1, len(datos), 1):
+            if datos[i]["puntaje"] < datos[j]["puntaje"]:
+                puntaje_auxiliar = datos[i]["puntaje"]
+                datos[i]["puntaje"] = datos[j]["puntaje"]
+                datos[j]["puntaje"] = puntaje_auxiliar
+
+                nombre_auxiliar = datos[i]["nombre"]
+                datos[i]["nombre"] = datos[j]["nombre"]
+                datos[j]["nombre"] = nombre_auxiliar
+
+def obtener_mayor_puntaje():
+    ruta = "Jugadores/puntajes_jugadores.json"
+    mayores_puntajes = []
+
+    with open(ruta, "r") as archivo:
+        puntaje_jugadores_archivo = json.load(archivo)
+        #ordenamos los datos de mayor puntaje
+        ordenamiento(puntaje_jugadores_archivo)
+        rango = len(puntaje_jugadores_archivo)
+
+        if rango > 3:
+            rango = 3
+            
+        for i in range(rango):
+            mayores_puntajes.append(puntaje_jugadores_archivo[i])
+
+    return mayores_puntajes
