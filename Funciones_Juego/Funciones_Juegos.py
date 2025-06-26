@@ -23,30 +23,48 @@ def pantalla_inicio() -> str:
     coordenadas_boton_nivel =   pygame.Rect(139, 320, 215, 80)
     coordenadas_boton_jugar =   pygame.Rect(421, 320, 236, 80)
     coordenadas_boton_puntaje = pygame.Rect(133, 430, 215, 80)
-    coordenadas_boton_salir =   pygame.Rect(450, 430, 215, 80)    
+    coordenadas_boton_salir =   pygame.Rect(450, 430, 215, 80)
+    coordenadas_boton_musica =  pygame.Rect(700, 40, 40, 40)
 
     if coordenadas_boton_nivel.collidepoint(posicion_mouse):
         opcion = "nivel"
-
     elif coordenadas_boton_puntaje.collidepoint(posicion_mouse):
         opcion = "puntaje"
     elif coordenadas_boton_salir.collidepoint(posicion_mouse):
         opcion = "salir"
     elif coordenadas_boton_jugar.collidepoint(posicion_mouse):
         opcion = "juego"
+    elif coordenadas_boton_musica.collidepoint(posicion_mouse):
+        opcion = "musica"
 
     return opcion
 
 
 
-def pantalla_nivel(pantalla):
+def pantalla_nivel(pantalla, eventos):
     """
     Funcion que permite seleccionar el nivel de dificultad del juego.
 
     Returns:
         str: opcion seleccionada.
     """
-    pygame.draw.rect(pantalla, 'pink', [100, 100, 300, 300])
+    retorno = "nivel"
+    fuente_botones = pygame.font.SysFont("consolas", 20)
+
+    coordenadas_boton_atras = pygame.Rect(10, 10, 100, 50)
+    pygame.draw.rect(pantalla, (255, 221, 0), coordenadas_boton_atras)
+    texto_atras = fuente_botones.render("Atras", True, (0, 0, 0)) 
+    rect_texto_atras = texto_atras.get_rect(center=coordenadas_boton_atras.center)
+    pantalla.blit(texto_atras, rect_texto_atras)
+
+    for evento in eventos:
+        if evento.type == pygame.MOUSEBUTTONDOWN:
+            posicion_mouse = pygame.mouse.get_pos()
+            
+            if coordenadas_boton_atras.collidepoint(posicion_mouse):
+                retorno = "inicio"
+
+    return retorno
 
 
 
@@ -178,20 +196,21 @@ def pantalla_puntaje(pantalla, eventos):
     rect_texto_atras = texto_atras.get_rect(center=coordenadas_boton_atras.center)
     pantalla.blit(texto_atras, rect_texto_atras)
 
-    texto_surface_nombre1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["nombre"]}", False, (255, 255, 255))
-    texto_surface_puntaje1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["puntaje"]}", False, (255, 255, 255))
-    pantalla.blit(texto_surface_nombre1, (150, 240))
-    pantalla.blit(texto_surface_puntaje1, (480, 240))
+    if len(puntaje_jugador_archivos) != 0:
+        texto_surface_nombre1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["nombre"]}", False, (255, 255, 255))
+        texto_surface_puntaje1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["puntaje"]}", False, (255, 255, 255))
+        pantalla.blit(texto_surface_nombre1, (150, 240))
+        pantalla.blit(texto_surface_puntaje1, (480, 240))
 
-    texto_surface_nombre2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["nombre"]}", False, (255, 255, 255))
-    texto_surface_puntaje2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["puntaje"]}", False, (255, 255, 255))
-    pantalla.blit(texto_surface_nombre2, (150, 365))
-    pantalla.blit(texto_surface_puntaje2, (480, 365))
+        texto_surface_nombre2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["nombre"]}", False, (255, 255, 255))
+        texto_surface_puntaje2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["puntaje"]}", False, (255, 255, 255))
+        pantalla.blit(texto_surface_nombre2, (150, 365))
+        pantalla.blit(texto_surface_puntaje2, (480, 365))
 
-    texto_surface_nombre3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["nombre"]}", False, (255, 255, 255))
-    texto_surface_puntaje3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["puntaje"]}", False, (255, 255, 255))
-    pantalla.blit(texto_surface_nombre3, (150, 490))
-    pantalla.blit(texto_surface_puntaje3, (480, 490))
+        texto_surface_nombre3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["nombre"]}", False, (255, 255, 255))
+        texto_surface_puntaje3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["puntaje"]}", False, (255, 255, 255))
+        pantalla.blit(texto_surface_nombre3, (150, 490))
+        pantalla.blit(texto_surface_puntaje3, (480, 490))
 
     for evento in eventos:
         if evento.type == pygame.MOUSEBUTTONDOWN:
@@ -203,30 +222,20 @@ def pantalla_puntaje(pantalla, eventos):
     return retorno
 
 
-def coordenadas_boton(pantalla, eventos):
-    retorno = ""
-    fuente_botones = pygame.font.SysFont("consolas", 20)
-    coordenadas_boton_atras = pygame.Rect(10, 10, 100, 50)
-    pygame.draw.rect(pantalla, 'yellow', coordenadas_boton_atras)
-    texto_atras = fuente_botones.render("Atras", True, (0, 0, 0)) 
-    rect_texto_atras = texto_atras.get_rect(center=coordenadas_boton_atras.center)
-    pantalla.blit(texto_atras, rect_texto_atras)
-    
-    coordenadas_boton_reiniciar = pygame.Rect(130, 10, 100, 50)
-    pygame.draw.rect(pantalla, 'pink', coordenadas_boton_reiniciar)
-    texto_reiniciar = fuente_botones.render("Reiniciar", True, (0, 0, 0))
-    rect_texto_reiniciar = texto_reiniciar.get_rect(center=coordenadas_boton_reiniciar.center)
-    pantalla.blit(texto_reiniciar, rect_texto_reiniciar)
+def desactivar_activar_musica(eventos, dict_aplicacion):
+    retorno = "inicio"
+    coordenadas_boton_activar = pygame.Rect(700, 40, 40, 40)
 
     for evento in eventos:
         if evento.type == pygame.MOUSEBUTTONDOWN:
             posicion_mouse = pygame.mouse.get_pos()
-            
-            if coordenadas_boton_atras.collidepoint(posicion_mouse):
-                retorno = "inicio"
-            
-            if coordenadas_boton_reiniciar.collidepoint(posicion_mouse):
-                retorno = "reiniciar"
+            if coordenadas_boton_activar.collidepoint(posicion_mouse):
+                if dict_aplicacion["musica_fondo"] == True:
+                    mixer.music.stop()
+                    dict_aplicacion["musica_fondo"] = False
+                else:
+                  mixer.music.play(loops=-1)
+                  dict_aplicacion["musica_fondo"] = True
 
     return retorno
 
@@ -401,16 +410,17 @@ def obtener_mayor_puntaje():
     ruta = "Jugadores/puntajes_jugadores.json"
     mayores_puntajes = []
 
-    with open(ruta, "r") as archivo:
-        puntaje_jugadores_archivo = json.load(archivo)
-        #ordenamos los datos de mayor puntaje
-        ordenamiento(puntaje_jugadores_archivo)
-        rango = len(puntaje_jugadores_archivo)
+    if os.path.exists(ruta):
+        with open(ruta, "r") as archivo:
+            puntaje_jugadores_archivo = json.load(archivo)
+            #ordenamos los datos de mayor puntaje
+            ordenamiento(puntaje_jugadores_archivo)
+            rango = len(puntaje_jugadores_archivo)
 
-        if rango > 3:
-            rango = 3
-            
-        for i in range(rango):
-            mayores_puntajes.append(puntaje_jugadores_archivo[i])
+            if rango > 3:
+                rango = 3
+                
+            for i in range(rango):
+                mayores_puntajes.append(puntaje_jugadores_archivo[i])
 
     return mayores_puntajes
