@@ -29,8 +29,8 @@ def inicializar_aplicacion() -> dict:
         "agua_tablero": pygame.transform.scale(pygame.image.load("Imagenes/agua_tablero.png"), (40, 40)),
         "cruz_negra": pygame.transform.scale(pygame.image.load("Imagenes/cruz_negra.png"), (30, 30)),
         "cruz_negra": pygame.transform.scale(pygame.image.load("Imagenes/cruz_negra.png"), (30, 30)),
-        "icono_juego": pygame.image.load("Imagenes/icono_juego.png"),
-        "pantalla_ingresar_nombre": pygame.transform.scale(pygame.image.load("Imagenes/pantalla_ingresar_nombre.jpg"), (800, 600)),
+        "icono_juego": pygame.image.load("Imagenes/icono_juego.jpg"),
+        "pantalla_ingresar_nombre": pygame.transform.scale(pygame.image.load("Imagenes/pantalla_ingresar_nombre.png"), (800, 600)),
         "pantalla_puntaje": pygame.transform.scale(pygame.image.load("Imagenes/pantalla_puntajes.jpg"), (800, 600)),
     }
     return dict_aplicacion
