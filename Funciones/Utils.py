@@ -12,6 +12,7 @@ def inicializar_matriz(cantidad_filas: int, cantidad_columnas:int, valor_inicial
     Returns:
         list: Una matriz con las columnas, filas y inicializada con los valores recibidos por parametro
     """
+
     matriz = []
     for _ in range(cantidad_filas):
         fila = [valor_inicial] * cantidad_columnas
@@ -22,6 +23,16 @@ def inicializar_matriz(cantidad_filas: int, cantidad_columnas:int, valor_inicial
 
 
 def inicializar_naves(tablero:list) -> dict:
+    """
+    Ubica aleatoriamente submarinos, destructores, cruceros y acorazados en el tablero.
+
+    Args:
+        tablero (list): Matriz que representa el tablero del juego, donde se van a colocar las naves.
+
+    Returns:
+        dict: Diccionario con el tablero actualizado y las posiciones de cada tipo de nave.
+    """
+
     contador = 0
 
     dict_juego = {
@@ -110,16 +121,18 @@ def inicializar_naves(tablero:list) -> dict:
     return dict_juego
 
 #imprimir matriz
-def imprimir_tablero(matriz_notas:list):
+def imprimir_tablero(matriz_bidimensional:list) -> None:
     """
     Imprime tablero
     
     Args:
-        matriz_notas: Son las notas de las materias de los alumnos.
+        matriz_bidimensional (list): La matriz a imprimir
+
     Returns:
-        None.
+        No imprime, muestra por consola la matriz.
     """
-    for i in range(len(matriz_notas)):        
-        for j in range(len(matriz_notas[i])):
-            print(matriz_notas[i][j], end=" | ")
+    
+    for i in range(len(matriz_bidimensional)):        
+        for j in range(len(matriz_bidimensional[i])):
+            print(matriz_bidimensional[i][j], end=" | ")
         print("")

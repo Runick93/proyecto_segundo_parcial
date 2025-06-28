@@ -3,12 +3,32 @@ import pygame
 
 
 def inicializar_juego() -> dict:
+    """
+    Inicializa el juego creando el tablero y ubicando las naves.
+
+    Args:
+        None
+
+    Returns:
+        dict: Diccionario que contiene el estado inicial del juego, incluyendo el tablero con las naves posicionadas.
+    """
+
     matriz_tablero = inicializar_matriz(10, 10)
     dict_juego = inicializar_naves(matriz_tablero)
-    imprimir_tablero(dict_juego["tablero"]) #For debug.
+    imprimir_tablero(dict_juego["tablero"]) #Para debug.
     return dict_juego
 
 def inicializar_jugador() -> dict:
+    """
+    Crea e inicializa un diccionario con la informacion del jugador.
+
+    Args:
+        None
+
+    Returns:
+        dict: Diccionario con los datos iniciales del jugador, incluyendo nombre, disparos, naves destruidas, puntaje y seleccion actual.
+    """
+
     dict_jugador = {
         "nombre_usuario": "",
         "nombre_insertado": False,
@@ -21,6 +41,16 @@ def inicializar_jugador() -> dict:
     return dict_jugador
 
 def inicializar_aplicacion() -> dict:
+    """
+    Inicializa los recursos visuales y de configuracion de la aplicacion.
+
+    Args:
+        None
+
+    Returns:
+        dict: Diccionario con la configuracion inicial de la aplicacion, incluyendo imagenes, iconos, musica de fondo y pantallas.
+    """
+
     dict_aplicacion = {
         "musica_fondo": True,
         "imagen_fondo": pygame.image.load("Imagenes/imagen_menu.jpg"),
