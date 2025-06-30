@@ -68,7 +68,7 @@ def pantalla_nivel(pantalla, eventos):
 
 
 
-def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
+def pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador) -> str:
     """
     Funcion donde se encuentra el juego, se renderiza el tablero, los botones y el puntaje.
 
@@ -80,20 +80,14 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
     """
     retorno = "juego"
 
-    imagen_cruz_roja = pygame.image.load("Imagenes/cruz_roja.png")
-    imagen_cruz_roja_reescalada = pygame.transform.scale(imagen_cruz_roja, (30, 30))
-
-    imagen_cruz_negra = pygame.image.load("Imagenes/cruz_negra.png")
-    imagen_cruz_negra_reescalada = pygame.transform.scale(imagen_cruz_negra, (30, 30))
-
-    sonido_disparo_acertado = mixer.Sound("Sonidos/sonido_acertado.wav")
-    sonido_disparo_fallido = mixer.Sound("Sonidos/sonido_no_acertado.wav")
+    sonido_disparo_acertado = mixer.Sound(dict_aplicacion["sonido_disparo_acertado_path"])
+    sonido_disparo_no_acertado =  mixer.Sound(dict_aplicacion["sonido_disparo_no_acertado_path"])
 
     sonido_disparo_acertado.set_volume(0.2)
-    sonido_disparo_fallido.set_volume(0.2)
+    sonido_disparo_no_acertado.set_volume(0.2)
 
 
-    renderizar_tablero(pantalla)
+    renderizar_tablero(pantalla, dict_aplicacion)
     # renderizar_botones(pantalla)
     # renderizar_puntaje(pantalla)
     fuente_botones = pygame.font.SysFont("consolas", 20)
@@ -123,10 +117,9 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
 
             if (i, j) in dict_jugador["selection"]:
                 if tablero[i][j] == 1:
-                    pantalla.blit(imagen_cruz_roja_reescalada, (x, y))
+                    pantalla.blit(dict_aplicacion["imagen_disparo_acertado_path"], (x, y))
                 else:
-
-                    pantalla.blit(imagen_cruz_negra_reescalada, (x, y))
+                    pantalla.blit(dict_aplicacion["imagen_disparo_no_acertado_path"], (x, y))
 
 
     for evento in eventos:
@@ -162,7 +155,7 @@ def pantalla_juego(pantalla, eventos, dict_juego, dict_jugador) -> str:
                                 dict_jugador["puntaje"] += 5
                                 verificar_destruccion(dict_juego, dict_jugador)
                             else: 
-                                sonido_disparo_fallido.play()
+                                sonido_disparo_no_acertado.play()
                                 dict_jugador["disparos_no_acertados"].append((i,j))
                                 dict_jugador["puntaje"] -= 1
     
@@ -197,18 +190,18 @@ def pantalla_puntaje(pantalla, eventos):
     pantalla.blit(texto_atras, rect_texto_atras)
 
     if len(puntaje_jugador_archivos) != 0:
-        texto_surface_nombre1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["nombre"]}", False, (255, 255, 255))
-        texto_surface_puntaje1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["puntaje"]}", False, (255, 255, 255))
+        texto_surface_nombre1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]['nombre']}", False, (255, 255, 255))
+        texto_surface_puntaje1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]['puntaje']}", False, (255, 255, 255))
         pantalla.blit(texto_surface_nombre1, (150, 240))
         pantalla.blit(texto_surface_puntaje1, (480, 240))
 
-        texto_surface_nombre2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["nombre"]}", False, (255, 255, 255))
-        texto_surface_puntaje2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["puntaje"]}", False, (255, 255, 255))
+        texto_surface_nombre2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]['nombre']}", False, (255, 255, 255))
+        texto_surface_puntaje2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]['puntaje']}", False, (255, 255, 255))
         pantalla.blit(texto_surface_nombre2, (150, 365))
         pantalla.blit(texto_surface_puntaje2, (480, 365))
 
-        texto_surface_nombre3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["nombre"]}", False, (255, 255, 255))
-        texto_surface_puntaje3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["puntaje"]}", False, (255, 255, 255))
+        texto_surface_nombre3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]['nombre']}", False, (255, 255, 255))
+        texto_surface_puntaje3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]['puntaje']}", False, (255, 255, 255))
         pantalla.blit(texto_surface_nombre3, (150, 490))
         pantalla.blit(texto_surface_puntaje3, (480, 490))
 
@@ -230,17 +223,17 @@ def desactivar_activar_musica(eventos, dict_aplicacion):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             posicion_mouse = pygame.mouse.get_pos()
             if coordenadas_boton_activar.collidepoint(posicion_mouse):
-                if dict_aplicacion["musica_fondo"] == True:
+                if dict_aplicacion["musica_fondo_activa"] == True:
                     mixer.music.stop()
-                    dict_aplicacion["musica_fondo"] = False
+                    dict_aplicacion["musica_fondo_activa"] = False
                 else:
                   mixer.music.play(loops=-1)
-                  dict_aplicacion["musica_fondo"] = True
+                  dict_aplicacion["musica_fondo_activa"] = True
 
     return retorno
 
 # Renderizado de objetos.
-def renderizar_tablero(pantalla):
+def renderizar_tablero(pantalla, dict_aplicacion):
     """
     Funcion donde se renderiza el tablero.
     """

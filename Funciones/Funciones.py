@@ -22,13 +22,16 @@ def inicializar_jugador() -> dict:
 
 def inicializar_aplicacion() -> dict:
     dict_aplicacion = {
-        "musica_fondo": True,
-        "imagen_fondo": pygame.image.load("Imagenes/imagen_menu.jpg"),
-        "imagen_musica_activa": pygame.transform.scale(pygame.image.load("Imagenes/musica_activa.png"), (40, 40)),
-        "imagen_musica_inactiva": pygame.transform.scale(pygame.image.load("Imagenes/musica_inactiva.png"), (40, 40)),
-        "agua_tablero": pygame.transform.scale(pygame.image.load("Imagenes/agua_tablero.png"), (40, 40)),
-        "cruz_negra": pygame.transform.scale(pygame.image.load("Imagenes/cruz_negra.png"), (30, 30)),
-        "cruz_negra": pygame.transform.scale(pygame.image.load("Imagenes/cruz_negra.png"), (30, 30)),
+        "musica_fondo_activa": True,
+        "musica_fondo_path": "Sonidos/musica_fondo.mp3",
+        "imagen_fondo_path": pygame.image.load("Imagenes/imagen_menu.jpg"),
+        "imagen_musica_activa_path": pygame.transform.scale(pygame.image.load("Imagenes/musica_activa.png"), (40, 40)),
+        "imagen_musica_inactiva_path": pygame.transform.scale(pygame.image.load("Imagenes/musica_inactiva.png"), (40, 40)),
+        "imagen_agua_tablero_path": pygame.transform.scale(pygame.image.load("Imagenes/agua_tablero.png"), (40, 40)),
+        "imagen_disparo_acertado_path": pygame.transform.scale(pygame.image.load("Imagenes/cruz_roja.png"), (30, 30)),
+        "imagen_disparo_no_acertado_path": pygame.transform.scale(pygame.image.load("Imagenes/cruz_negra.png"), (30, 30)),
+        "sonido_disparo_acertado_path": "Sonidos/sonido_acertado.wav",
+        "sonido_disparo_no_acertado_path": "Sonidos/sonido_no_acertado.wav",
         "icono_juego": pygame.image.load("Imagenes/icono_juego.jpg"),
         "pantalla_ingresar_nombre": pygame.transform.scale(pygame.image.load("Imagenes/pantalla_ingresar_nombre.png"), (800, 600)),
         "pantalla_puntaje": pygame.transform.scale(pygame.image.load("Imagenes/pantalla_puntajes.jpg"), (800, 600)),
