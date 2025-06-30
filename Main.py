@@ -51,12 +51,12 @@ while True:
 
     elif menu_inicio == "juego": 
         if dict_jugador["nombre_insertado"] == False:
-            nombre_usuario = ingresar_nombre_usuario(pantalla, eventos, dict_jugador, nombre_usuario)
+            nombre_usuario = ingresar_nombre_usuario(pantalla, eventos, dict_aplicacion, dict_jugador, nombre_usuario)
         else:
             menu_inicio = pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador)
 
     elif menu_inicio == "puntaje":
-        menu_inicio = pantalla_puntaje(pantalla, eventos)
+        menu_inicio = pantalla_puntaje(pantalla, eventos, dict_aplicacion)
 
     elif menu_inicio == "salir":
         pygame.quit()

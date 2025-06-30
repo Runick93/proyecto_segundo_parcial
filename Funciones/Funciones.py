@@ -16,7 +16,7 @@ def inicializar_jugador() -> dict:
         "disparos_no_acertados": [],
         "naves_destruidas": 0,
         "puntaje": 0000,
-        "selection": []
+        "seleccion": []
     }
     return dict_jugador
 
@@ -33,7 +33,8 @@ def inicializar_aplicacion() -> dict:
         "sonido_disparo_acertado_path": "Sonidos/sonido_acertado.wav",
         "sonido_disparo_no_acertado_path": "Sonidos/sonido_no_acertado.wav",
         "icono_juego": pygame.image.load("Imagenes/icono_juego.jpg"),
-        "pantalla_ingresar_nombre": pygame.transform.scale(pygame.image.load("Imagenes/pantalla_ingresar_nombre.png"), (800, 600)),
-        "pantalla_puntaje": pygame.transform.scale(pygame.image.load("Imagenes/pantalla_puntajes.jpg"), (800, 600)),
+        "imagen_fondo_ingresar_nombre": pygame.transform.scale(pygame.image.load("Imagenes/pantalla_ingresar_nombre.png"), (800, 600)),
+        "imagen_fondo_puntaje_path": pygame.transform.scale(pygame.image.load("Imagenes/pantalla_puntajes.jpg"), (800, 600)),
+        "archivo_puntajes_path": "Jugadores/puntajes_jugadores.json"
     }
     return dict_aplicacion

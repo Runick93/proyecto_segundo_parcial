@@ -115,7 +115,7 @@ def pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador)
             y = 150 + i * 32
             rect = pygame.Rect(x, y, 30, 30)
 
-            if (i, j) in dict_jugador["selection"]:
+            if (i, j) in dict_jugador["seleccion"]:
                 if tablero[i][j] == 1:
                     pantalla.blit(dict_aplicacion["imagen_disparo_acertado_path"], (x, y))
                 else:
@@ -142,13 +142,13 @@ def pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador)
                         print(f"clic en la casilla fila {i} columna {j}")
                         se_clickeo = False
 
-                        for numero_de_casilla in range(len(dict_jugador["selection"])):
-                            seleccion_usuario = dict_jugador["selection"][numero_de_casilla]
+                        for numero_de_casilla in range(len(dict_jugador["seleccion"])):
+                            seleccion_usuario = dict_jugador["seleccion"][numero_de_casilla]
                             if seleccion_usuario[0] == i and seleccion_usuario[1] == j:
                                 se_clickeo = True
                     
                         if se_clickeo == False:
-                            dict_jugador["selection"].append((i,j))
+                            dict_jugador["seleccion"].append((i,j))
                             if tablero[i][j] == 1:
                                 sonido_disparo_acertado.play()
                                 dict_jugador["disparos_acertados"].append([i,j])
@@ -161,7 +161,7 @@ def pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador)
     
     partida_finalizada = partida_terminada(dict_jugador)
     if partida_finalizada == True:
-        guardar_puntaje(dict_jugador)
+        guardar_puntaje(dict_aplicacion ,dict_jugador)
         retorno = "reiniciar"
     #print(dict_jugador["puntaje"])
     texto_surface = fuente_puntaje.render(f"PUNTAJE: {dict_jugador['puntaje']}", False, (255, 255, 255))
@@ -170,12 +170,12 @@ def pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador)
 
 
 
-def pantalla_puntaje(pantalla, eventos):
+def pantalla_puntaje(pantalla, eventos, dict_aplicacion):
     """
     Funcion que permite ver el historico de puntajes en el juego.
     """
     retorno = "puntaje"
-    fondo_imagen = pygame.image.load("Imagenes/pantalla_puntajes.jpg")
+    fondo_imagen = dict_aplicacion["imagen_fondo_puntaje_path"]
     pantalla.blit(fondo_imagen, [0,0])
     puntaje_jugador_archivos = obtener_mayor_puntaje()
 
@@ -294,13 +294,11 @@ def renderizar_tablero(pantalla, dict_aplicacion):
             pantalla.blit(imagen_reescalada, (x, y))
             #pantalla.blit(contorno, (x, y))     
 
-def ingresar_nombre_usuario(pantalla, eventos, dict_jugador: dict, nombre_usuario) -> None:
+def ingresar_nombre_usuario(pantalla, eventos, dict_aplicacion, dict_jugador: dict, nombre_usuario) -> None:
     """
     Funcion que permite ingresar nombre de usuario
     """
-    pantalla_nombre_usuario = pygame.image.load("Imagenes/pantalla_ingresar_nombre.png")
-    pantalla_nombre_usuario_reescalada = pygame.transform.scale(pantalla_nombre_usuario, (800, 600))
-    pantalla.blit(pantalla_nombre_usuario_reescalada, [0,0])
+    pantalla.blit(dict_aplicacion["imagen_fondo_ingresar_nombre"], [0,0])
 
     if len(nombre_usuario) > 6:
         nombre_usuario = nombre_usuario[0:6]
@@ -370,11 +368,11 @@ def partida_terminada(dict_jugador):
 
     return retorno
 
-def guardar_puntaje(dict_jugador):
+def guardar_puntaje(dict_aplicacion, dict_jugador):
     nombre_usuario = dict_jugador["nombre_usuario"]
     puntaje = dict_jugador["puntaje"]
     
-    ruta = "Jugadores/puntajes_jugadores.json"
+    ruta = dict_aplicacion["archivo_puntajes_path"]#"Jugadores/puntajes_jugadores.json"
 
     if os.path.exists(ruta):
         with open(ruta, "r") as f:
