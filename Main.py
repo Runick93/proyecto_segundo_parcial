@@ -37,11 +37,11 @@ while True:
                 menu_inicio = pantalla_inicio()
 
     if menu_inicio == "inicio":
-        pantalla.blit(dict_aplicacion["imagen_fondo_path"], [0,0])
+        pantalla.blit(dict_aplicacion["imagen_fondo"], [0,0])
         if dict_aplicacion["musica_fondo_activa"] == True:
-            pantalla.blit(dict_aplicacion["imagen_musica_activa_path"], [700,40])
+            pantalla.blit(dict_aplicacion["imagen_musica_activa"], [700,40])
         else:
-            pantalla.blit(dict_aplicacion["imagen_musica_inactiva_path"], [700,40])
+            pantalla.blit(dict_aplicacion["imagen_musica_inactiva"], [700,40])
     elif menu_inicio == "musica":
         menu_inicio = desactivar_activar_musica(eventos, dict_aplicacion)
 

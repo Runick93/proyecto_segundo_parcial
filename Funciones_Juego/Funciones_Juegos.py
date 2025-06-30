@@ -48,6 +48,7 @@ def pantalla_nivel(pantalla, eventos):
     Returns:
         str: opcion seleccionada.
     """
+
     retorno = "nivel"
     fuente_botones = pygame.font.SysFont("consolas", 20)
 
@@ -117,9 +118,9 @@ def pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador)
 
             if (i, j) in dict_jugador["seleccion"]:
                 if tablero[i][j] == 1:
-                    pantalla.blit(dict_aplicacion["imagen_disparo_acertado_path"], (x, y))
+                    pantalla.blit(dict_aplicacion["imagen_disparo_acertado"], (x, y))
                 else:
-                    pantalla.blit(dict_aplicacion["imagen_disparo_no_acertado_path"], (x, y))
+                    pantalla.blit(dict_aplicacion["imagen_disparo_no_acertado"], (x, y))
 
 
     for evento in eventos:
@@ -175,9 +176,8 @@ def pantalla_puntaje(pantalla, eventos, dict_aplicacion):
     Funcion que permite ver el historico de puntajes en el juego.
     """
     retorno = "puntaje"
-    fondo_imagen = dict_aplicacion["imagen_fondo_puntaje_path"]
-    pantalla.blit(fondo_imagen, [0,0])
-    puntaje_jugador_archivos = obtener_mayor_puntaje()
+    pantalla.blit(dict_aplicacion["imagen_fondo_puntajes"], [0,0])
+    puntaje_jugador_archivos = obtener_mayor_puntaje(dict_aplicacion)
 
     fuente_puntaje = pygame.font.SysFont("Consolas", 32)
 
@@ -372,7 +372,7 @@ def guardar_puntaje(dict_aplicacion, dict_jugador):
     nombre_usuario = dict_jugador["nombre_usuario"]
     puntaje = dict_jugador["puntaje"]
     
-    ruta = dict_aplicacion["archivo_puntajes_path"]#"Jugadores/puntajes_jugadores.json"
+    ruta = dict_aplicacion["archivo_puntajes_path"]
 
     if os.path.exists(ruta):
         with open(ruta, "r") as f:
@@ -397,8 +397,8 @@ def ordenamiento(datos):
                 datos[i]["nombre"] = datos[j]["nombre"]
                 datos[j]["nombre"] = nombre_auxiliar
 
-def obtener_mayor_puntaje():
-    ruta = "Jugadores/puntajes_jugadores.json"
+def obtener_mayor_puntaje(dict_aplicacion):
+    ruta = dict_aplicacion["archivo_puntajes_path"]
     mayores_puntajes = []
 
     if os.path.exists(ruta):
