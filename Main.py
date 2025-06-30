@@ -2,6 +2,10 @@ import pygame
 import pygame.mixer as mixer
 from Funciones_Juego.Funciones_Juegos import * 
 
+dict_juego = inicializar_juego()
+dict_jugador = inicializar_jugador()
+dict_aplicacion = inicializar_aplicacion()
+
 pygame.init()
 mixer.init()
 
@@ -11,14 +15,9 @@ pygame.display.set_caption("Batalla Naval")
 imagen = pygame.image.load("Imagenes/icono_juego.jpg")
 pygame.display.set_icon(imagen)
 
-mixer.music.load("Sonidos/musica_fondo.mp3")
+mixer.music.load(dict_aplicacion["musica_fondo_path"])
 mixer.music.set_volume(0.1)
 mixer.music.play(loops=-1)
-
-dict_juego = inicializar_juego()
-dict_jugador = inicializar_jugador()
-dict_aplicacion = inicializar_aplicacion()
-
 
 menu_inicio = "inicio"
 nombre_usuario = dict_jugador["nombre_usuario"]
@@ -37,28 +36,32 @@ while True:
             if menu_inicio == "inicio":
                 menu_inicio = pantalla_inicio()
 
-
     if menu_inicio == "inicio":
         pantalla.blit(dict_aplicacion["imagen_fondo"], [0,0])
-        if dict_aplicacion["musica_fondo"] == True:
+        if dict_aplicacion["musica_fondo_activa"] == True:
             pantalla.blit(dict_aplicacion["imagen_musica_activa"], [700,40])
         else:
             pantalla.blit(dict_aplicacion["imagen_musica_inactiva"], [700,40])
     elif menu_inicio == "musica":
         menu_inicio = desactivar_activar_musica(eventos, dict_aplicacion)
+
     elif menu_inicio == "nivel":
         pantalla.fill((0,0,0))
         menu_inicio = pantalla_nivel(pantalla, eventos)
+
     elif menu_inicio == "juego": 
         if dict_jugador["nombre_insertado"] == False:
-            nombre_usuario = ingresar_nombre_usuario(pantalla, eventos, dict_jugador, nombre_usuario)
+            nombre_usuario = ingresar_nombre_usuario(pantalla, eventos, dict_aplicacion, dict_jugador, nombre_usuario)
         else:
-            menu_inicio = pantalla_juego(pantalla, eventos, dict_juego, dict_jugador)
+            menu_inicio = pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador)
+
     elif menu_inicio == "puntaje":
-        menu_inicio = pantalla_puntaje(pantalla, eventos)
+        menu_inicio = pantalla_puntaje(pantalla, eventos, dict_aplicacion)
+
     elif menu_inicio == "salir":
         pygame.quit()
         quit()
+
     elif menu_inicio == "reiniciar":
         dict_juego = inicializar_juego()
         dict_jugador = inicializar_jugador()
