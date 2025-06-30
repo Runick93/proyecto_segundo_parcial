@@ -12,6 +12,9 @@ def pantalla_inicio() -> str:
     """
     Funcion de la pantalla de inicio que permite seleccionar un boton para elegir a que opcion se desea ir.
 
+    Args:
+        None
+
     Returns:
         str: opcion seleccionada.
     """
@@ -41,9 +44,13 @@ def pantalla_inicio() -> str:
 
 
 
-def pantalla_nivel(pantalla, eventos):
+def pantalla_nivel(pantalla, eventos: list) -> str:
     """
     Funcion que permite seleccionar el nivel de dificultad del juego.
+
+    Args:
+        pantalla (pygame.Surface): Superficie de Pygame donde se renderiza el contenido, obtenida con pygame.display.set_mode()
+        eventos (list): Lista de eventos de Pygame obtenidos con pygame.event.get()
 
     Returns:
         str: opcion seleccionada.
@@ -69,16 +76,21 @@ def pantalla_nivel(pantalla, eventos):
 
 
 
-def pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador) -> str:
+def pantalla_juego(pantalla, eventos: list, dict_aplicacion: dict, dict_juego: dict, dict_jugador: dict) -> str:
     """
     Funcion donde se encuentra el juego, se renderiza el tablero, los botones y el puntaje.
 
     Args:
-        pantalla: 
-        eventos: 
-        dict_juego: Parametros del juego, como el tablero con las naves y las coordenadas de cada nave.
-        dict_jugador: Parametros del jugador, como coordenadas acertadas, no acertadas y puntaje
+        pantalla (pygame.Surface): Superficie de Pygame donde se renderiza el contenido, obtenida con pygame.display.set_mode()
+        eventos (list): Lista de eventos de Pygame obtenidos con pygame.event.get()
+        dict_aplicacion (dict): Diccionario que contiene la configuracion de la aplicacion
+        dict_juego (dict): Parametros del juego, como el tablero con las naves y las coordenadas de cada nave.
+        dict_jugador (dict): Parametros del jugador, como coordenadas acertadas, no acertadas y puntaje
+
+    Returns:
+        str: opcion seleccionada.
     """
+    
     retorno = "juego"
 
     sonido_disparo_acertado = mixer.Sound(dict_aplicacion["sonido_disparo_acertado_path"])
@@ -88,7 +100,7 @@ def pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador)
     sonido_disparo_no_acertado.set_volume(0.2)
 
 
-    renderizar_tablero(pantalla, dict_aplicacion)
+    renderizar_tablero(pantalla)
     # renderizar_botones(pantalla)
     # renderizar_puntaje(pantalla)
     fuente_botones = pygame.font.SysFont("consolas", 20)
@@ -171,10 +183,19 @@ def pantalla_juego(pantalla, eventos, dict_aplicacion, dict_juego, dict_jugador)
 
 
 
-def pantalla_puntaje(pantalla, eventos, dict_aplicacion):
+def pantalla_puntaje(pantalla, eventos: list, dict_aplicacion: dict) -> str:
     """
     Funcion que permite ver el historico de puntajes en el juego.
+
+    Args:
+        pantalla (pygame.Surface): Superficie de Pygame donde se renderiza el contenido, obtenida con pygame.display.set_mode()
+        eventos (list): Lista de eventos de Pygame obtenidos con pygame.event.get()
+        dict_aplicacion (dict): Diccionario que contiene la configuracion de la aplicacion
+
+    Returns:
+        str: opcion seleccionada.
     """
+
     retorno = "puntaje"
     pantalla.blit(dict_aplicacion["imagen_fondo_puntajes"], [0,0])
     puntaje_jugador_archivos = obtener_mayor_puntaje(dict_aplicacion)
@@ -189,19 +210,21 @@ def pantalla_puntaje(pantalla, eventos, dict_aplicacion):
     rect_texto_atras = texto_atras.get_rect(center=coordenadas_boton_atras.center)
     pantalla.blit(texto_atras, rect_texto_atras)
 
-    if len(puntaje_jugador_archivos) != 0:
-        texto_surface_nombre1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]['nombre']}", False, (255, 255, 255))
-        texto_surface_puntaje1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]['puntaje']}", False, (255, 255, 255))
+    if len(puntaje_jugador_archivos) >= 1:
+        texto_surface_nombre1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["nombre"]}", False, (255, 255, 255))
+        texto_surface_puntaje1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["puntaje"]}", False, (255, 255, 255))
         pantalla.blit(texto_surface_nombre1, (150, 240))
         pantalla.blit(texto_surface_puntaje1, (480, 240))
 
-        texto_surface_nombre2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]['nombre']}", False, (255, 255, 255))
-        texto_surface_puntaje2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]['puntaje']}", False, (255, 255, 255))
+    if len(puntaje_jugador_archivos) >= 2:
+        texto_surface_nombre2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["nombre"]}", False, (255, 255, 255))
+        texto_surface_puntaje2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["puntaje"]}", False, (255, 255, 255))
         pantalla.blit(texto_surface_nombre2, (150, 365))
         pantalla.blit(texto_surface_puntaje2, (480, 365))
 
-        texto_surface_nombre3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]['nombre']}", False, (255, 255, 255))
-        texto_surface_puntaje3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]['puntaje']}", False, (255, 255, 255))
+    if len(puntaje_jugador_archivos) >= 3:
+        texto_surface_nombre3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["nombre"]}", False, (255, 255, 255))
+        texto_surface_puntaje3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["puntaje"]}", False, (255, 255, 255))
         pantalla.blit(texto_surface_nombre3, (150, 490))
         pantalla.blit(texto_surface_puntaje3, (480, 490))
 
@@ -215,7 +238,18 @@ def pantalla_puntaje(pantalla, eventos, dict_aplicacion):
     return retorno
 
 
-def desactivar_activar_musica(eventos, dict_aplicacion):
+def desactivar_activar_musica(eventos: list, dict_aplicacion: dict) -> str:
+    """
+    Activa o desactiva la musica de fondo al detectar un clic.
+
+    Args:
+        eventos (list): Lista de eventos de Pygame obtenidos con pygame.event.get().
+        dict_aplicacion (dict): Diccionario que contiene la configuracion de la aplicacion, incluyendo el estado de la musica.
+
+    Returns:
+        str: opcion seleccionada.
+    """
+
     retorno = "inicio"
     coordenadas_boton_activar = pygame.Rect(700, 40, 40, 40)
 
@@ -233,10 +267,17 @@ def desactivar_activar_musica(eventos, dict_aplicacion):
     return retorno
 
 # Renderizado de objetos.
-def renderizar_tablero(pantalla, dict_aplicacion):
+def renderizar_tablero(pantalla) -> None:
     """
     Funcion donde se renderiza el tablero.
+
+    Args:
+        eventos (list): Lista de eventos de Pygame obtenidos con pygame.event.get()
+
+    Returns:
+        str: opcion seleccionada.
     """
+
     CANT_FILAS = 10
     CANT_COLUMNAS = 10
     ANCHO_IMAGEN_AGUA = 30
@@ -288,9 +329,19 @@ def renderizar_tablero(pantalla, dict_aplicacion):
             pantalla.blit(imagen_reescalada, (x, y))
             #pantalla.blit(contorno, (x, y))     
 
-def ingresar_nombre_usuario(pantalla, eventos, dict_aplicacion, dict_jugador: dict, nombre_usuario) -> None:
+def ingresar_nombre_usuario(pantalla, eventos: list, dict_aplicacion: dict, dict_jugador: dict, nombre_usuario: str) -> None:
     """
     Funcion que permite ingresar nombre de usuario
+
+    Args:
+        pantalla (pygame.Surface): Superficie de Pygame donde se renderiza el contenido, obtenida con pygame.display.set_mode()
+        eventos (list): Lista de eventos de Pygame obtenidos con pygame.event.get()
+        dict_aplicacion (dict): Diccionario que contiene la configuracion de la aplicacion
+        dict_jugador (dict): Parametros del jugador, como coordenadas acertadas, no acertadas y puntaje
+        nombre_usuario (str): Nombre del jugador ingresado o por ingresar
+
+    Returns:
+        str: Nombre del jugador ingresado.
     """
     pantalla.blit(dict_aplicacion["imagen_fondo_ingresar_nombre"], [0,0])
 
@@ -320,7 +371,18 @@ def ingresar_nombre_usuario(pantalla, eventos, dict_aplicacion, dict_jugador: di
 
     return nombre_usuario
 
-def verificar_destruccion(dict_juego, dict_jugador):
+def verificar_destruccion(dict_juego: dict, dict_jugador: dict) -> None:
+    """
+    Funcion donde verifica si hubo destruccion de la nave, sumando 10 puntos extras por cada elemento que compone la misma. 
+
+    Args:
+        dict_juego (dict): Parametros del juego, como el tablero con las naves y las coordenadas de cada nave.
+        dict_jugador (dict): Parametros del jugador, como coordenadas acertadas, no acertadas y puntaje
+
+    Returns:
+        None
+    """
+     
     tipos_nave = ["submarinos", "destructores", "cruceros", "acorazados"]
     disparos = dict_jugador["disparos_acertados"]
 
@@ -352,7 +414,17 @@ def verificar_destruccion(dict_juego, dict_jugador):
         for nave in naves_a_eliminar:
             naves.remove(nave)
         
-def partida_terminada(dict_jugador):
+def partida_terminada(dict_jugador: dict) -> bool:
+    """
+    Funcion que verifica si se termino la partida en base a que todas las naves esten destruidas.
+
+    Args:
+        dict_jugador (dict): Parametros del jugador, como coordenadas acertadas, no acertadas y puntaje.
+
+    Returns:
+        bool: True o False dependiendo si se termino o no la partida.
+    """
+
     naves_destruidas = dict_jugador["naves_destruidas"]
     
     retorno = False
@@ -362,11 +434,24 @@ def partida_terminada(dict_jugador):
 
     return retorno
 
-def guardar_puntaje(dict_aplicacion, dict_jugador):
+def guardar_puntaje(dict_aplicacion: dict, dict_jugador: dict) -> None:
+    """
+    Guarda el puntaje del jugador en un archivo JSON.
+
+    Args:
+        dict_aplicacion (dict): Diccionario que contiene la configuracion de la aplicacion
+        dict_jugador (dict): Parametros del jugador, como coordenadas acertadas, no acertadas y puntaje.
+
+    Returns:
+        None
+    """
     nombre_usuario = dict_jugador["nombre_usuario"]
     puntaje = dict_jugador["puntaje"]
     
     ruta = dict_aplicacion["archivo_puntajes_path"]
+
+    if not os.path.exists("Jugadores"):
+        os.makedirs("Jugadores")
 
     if os.path.exists(ruta):
         with open(ruta, "r") as f:
@@ -379,7 +464,17 @@ def guardar_puntaje(dict_aplicacion, dict_jugador):
     with open(ruta, "w") as f:
         json.dump(puntajes, f, indent=4)
 
-def ordenamiento(datos):
+def ordenamiento(datos: list) -> None:
+    """
+    Funcion que ordena de manera ASC una matriz pasada por parametros.
+
+    Args:
+        datos (list): Una matriz que contiene los datos a ordenar
+
+    Returns:
+        La matriz pasada por parametro ordenada.
+    """
+
     for i in range(0, len(datos)-1, 1):
         for j in range(i + 1, len(datos), 1):
             if datos[i]["puntaje"] < datos[j]["puntaje"]:
@@ -391,7 +486,16 @@ def ordenamiento(datos):
                 datos[i]["nombre"] = datos[j]["nombre"]
                 datos[j]["nombre"] = nombre_auxiliar
 
-def obtener_mayor_puntaje(dict_aplicacion):
+def obtener_mayor_puntaje(dict_aplicacion: dict) -> list:
+    """
+    Obtiene los tres mayores puntajes almacenados en el archivo JSON.
+
+    Args:
+        dict_aplicacion (dict): Diccionario que contiene la configuracion de la aplicacion
+
+    Returns:
+        list: Lista con los datos de los jugadores con mayor puntaje (hasta un maximo de tres).
+    """
     ruta = dict_aplicacion["archivo_puntajes_path"]
     mayores_puntajes = []
 
