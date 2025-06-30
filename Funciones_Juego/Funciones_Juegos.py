@@ -243,10 +243,8 @@ def renderizar_tablero(pantalla, dict_aplicacion):
     ALTO_IMAGEN_AGUA = 30
     MARGEN_ROTULO_SUP = 40
     MARGEN_ROTULO_IZQ = 40
-    COLOR_CONTORNO = (0, 0, 0)    # NEGRO
     COLOR_FONDO = (0, 0, 0)       # NEGRO
     COLOR_TEXTO = (255, 255, 255) # BLANCO
-    GROSOR_CONTORNO = 2
     IMAGEN_AGUA = "Imagenes/agua_tablero.png"
 
     ANCHO_PANTALLA, ALTO_PANTALLA = pantalla.get_size()
@@ -264,10 +262,6 @@ def renderizar_tablero(pantalla, dict_aplicacion):
     # Cargar y escalar imagen
     imagen = pygame.image.load(IMAGEN_AGUA)
     imagen_reescalada = pygame.transform.scale(imagen, (ANCHO_IMAGEN_AGUA, ALTO_IMAGEN_AGUA))
-
-    # Contorno
-    #contorno = pygame.Surface((ANCHO_IMAGEN_AGUA, ALTO_IMAGEN_AGUA), pygame.SRCALPHA)
-    #pygame.draw.rect(contorno, COLOR_CONTORNO, pygame.Rect(0, 0, ANCHO_IMAGEN_AGUA, ALTO_IMAGEN_AGUA), width=GROSOR_CONTORNO)
 
     pantalla.fill(COLOR_FONDO)
 
