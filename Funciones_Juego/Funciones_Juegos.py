@@ -211,20 +211,20 @@ def pantalla_puntaje(pantalla, eventos: list, dict_aplicacion: dict) -> str:
     pantalla.blit(texto_atras, rect_texto_atras)
 
     if len(puntaje_jugador_archivos) >= 1:
-        texto_surface_nombre1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["nombre"]}", False, (255, 255, 255))
-        texto_surface_puntaje1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]["puntaje"]}", False, (255, 255, 255))
+        texto_surface_nombre1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]['nombre']}", False, (255, 255, 255))
+        texto_surface_puntaje1 = fuente_puntaje.render(f"{puntaje_jugador_archivos[0]['puntaje']}", False, (255, 255, 255))
         pantalla.blit(texto_surface_nombre1, (150, 240))
         pantalla.blit(texto_surface_puntaje1, (480, 240))
 
     if len(puntaje_jugador_archivos) >= 2:
-        texto_surface_nombre2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["nombre"]}", False, (255, 255, 255))
-        texto_surface_puntaje2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]["puntaje"]}", False, (255, 255, 255))
+        texto_surface_nombre2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]['nombre']}", False, (255, 255, 255))
+        texto_surface_puntaje2 = fuente_puntaje.render(f"{puntaje_jugador_archivos[1]['puntaje']}", False, (255, 255, 255))
         pantalla.blit(texto_surface_nombre2, (150, 365))
         pantalla.blit(texto_surface_puntaje2, (480, 365))
 
     if len(puntaje_jugador_archivos) >= 3:
-        texto_surface_nombre3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["nombre"]}", False, (255, 255, 255))
-        texto_surface_puntaje3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]["puntaje"]}", False, (255, 255, 255))
+        texto_surface_nombre3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]['nombre']}", False, (255, 255, 255))
+        texto_surface_puntaje3 = fuente_puntaje.render(f"{puntaje_jugador_archivos[2]['puntaje']}", False, (255, 255, 255))
         pantalla.blit(texto_surface_nombre3, (150, 490))
         pantalla.blit(texto_surface_puntaje3, (480, 490))
 
